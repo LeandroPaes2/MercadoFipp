@@ -44,7 +44,7 @@ export default {
     msg: String
   },
   data(){
-    return {id:0, nome:"",formOn:false, 
+    return {formOn:false, 
     categorias:[]}
   },
   methods:{
