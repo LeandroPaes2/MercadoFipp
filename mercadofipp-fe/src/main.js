@@ -8,8 +8,8 @@ import FormUsuario from './components/FormUsuario.vue'
 const router = createRouter({
     history: createWebHistory(),
     routes: [
-        { path: '/form-categoria', component: FormCategoria },
-        { path: '/form-usuario', component: FormUsuario },
+        { path: '/form-categoria/:msg', component: FormCategoria, props: true },
+        { path: '/form-usuario/:msg', component: FormUsuario, props: true },
     ]
 });
 
