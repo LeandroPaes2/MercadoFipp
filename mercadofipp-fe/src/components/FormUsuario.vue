@@ -3,15 +3,17 @@
     <h1>{{ msg }}</h1>
     <div v-if="formOn">
       <form @submit.prevent="this.gravar()">
-        <label for="idcat">Id</label>
-        <input type="text" id="idcat" v-model="id" placeholder="ID da Categoria..">
+        <label for="idusu">Id</label>
+        <input type="text" id="idusu" v-model="id" placeholder="ID da Senha..">
         <label for="name">Nome</label>
-        <input type="text" id="name" v-model="nome" placeholder="Nome da Categoria..">
-        <input type="submit" value="Cadastrar">
+        <input type="text" id="name" v-model="nome" placeholder="Nome da Senha..">
+        <label for="senha">Senha</label>
+        <input type="text" id="senha" v-model="senha" placeholder="Senha ..">
+        <input type="submit" value="Confirmar">
       </form>
     </div>
     <div style="display: flex; justify-content: flex-end;">
-      <button @click="this.mostrarForm(true)">Nova Categoria</button>
+      <button @click="this.mostrarForm(true)">Novo Usuario</button>
     </div>
     <div>
       <table id="customers">
@@ -19,15 +21,17 @@
           <tr>
             <th>Id</th>
             <th @click="ordenarNome()">Nome</th>
+            <th >Senha</th>
             <th colspan="2">Ações</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="cat in this.categorias">
-            <td>{{cat.id}}</td>
-            <td>{{cat.nome}}</td>
-            <td><button @click="this.alterar(cat.id)">Alterar</button></td>
-            <td><button @click="this.apagar(cat.id)">Apagar</button></td>
+          <tr v-for="usu in this.usuarios">
+            <td>{{usu.id}}</td>
+            <td>{{usu.nome}}</td>
+            <td>{{usu.senha}}</td>
+            <td><button @click="this.alterar(usu.id)">Alterar</button></td>
+            <td><button @click="this.apagar(usu.id)">Apagar</button></td>
           </tr>
         </tbody>
       </table>
@@ -39,13 +43,13 @@
 import axios from 'axios'
 
 export default {
-  name: 'FormCategoria',
+  name: 'FormUsuario',
   props: {
     msg: String
   },
   data(){
-    return {id:0, nome:"",formOn:false, 
-    categorias:[]}
+    return {id:0, nome:"", senha:"", formOn:false,
+    usuarios:[]}
   },
   methods:{
     mostrarForm(flag)
@@ -53,8 +57,8 @@ export default {
       this.formOn=flag;
     },
     gravar(){
-      const url = 'http://localhost:8080/apis/categoria';
-      const data = { id: this.id, nome: this.nome};
+      const url = 'http://localhost:8080/apis/usuario';
+      const data = { id: this.id, nome: this.nome, senha: this.senha};
       axios.post(url, data)
       .then(response => {
         this.carregarDados();
@@ -65,29 +69,29 @@ export default {
       this.mostrarForm(false);
     },
     apagar(id){
-      axios.delete("http://localhost:8080/apis/categoria/"+id)
+      axios.delete("http://localhost:8080/apis/usuario/"+id)
       .then(result=>{this.carregarDados()})
       .catch(error=>{alert(error)})
     },
     alterar(id){
       this.formOn=true;
-      axios.get("http://localhost:8080/apis/categoria/"+id)
+      axios.get("http://localhost:8080/apis/usuario/"+id)
       .then(result=>{        
         const categoria=result.data;
         this.id=categoria.id;
         this.nome=categoria.nome;
+        this.senha=categoria.senha;
       })
       .catch(error=>{alert(error)})
 
-      alert('Alterando '+id);
     },
     carregarDados(){
-      axios.get("http://localhost:8080/apis/categoria")
-      .then(result=>{this.categorias=result.data})
+      axios.get("http://localhost:8080/apis/usuario")
+      .then(result=>{this.usuarios=result.data})
       .catch(error=>{alert(error)})
     },
     ordenarNome(){
-      this.categorias.sort((a,b)=>a.nome.localeCompare(b.nome));
+      this.usuarios.sort((a,b)=>a.nome.localeCompare(b.nome));
     }
   },
   mounted(){
@@ -154,7 +158,7 @@ div {
   padding-top: 12px;
   padding-bottom: 12px;
   text-align: left;
-  background-color: #04AA6D;
+  background-color: blueviolet;
   color: white;
 }
 </style>
