@@ -31,6 +31,9 @@ public class Anuncio {
     @OneToMany(mappedBy = "anuncio")
     private List<Pergunta> perguntas;
 
+    @OneToMany(mappedBy = "anuncio")
+    private List<Foto> fotos;
+
     public Anuncio() {
         this(0L,"",null,"",0,null,null);
     }
@@ -108,4 +111,8 @@ public class Anuncio {
     public void setPerguntas(List<Pergunta> perguntas) {
         this.perguntas = perguntas;
     }
+
+    public List<Foto> getFotos() {return fotos;}
+
+    public void setFotos(List<Foto> fotos) {this.fotos = fotos;}
 }

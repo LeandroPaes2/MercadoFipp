@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import unoeste.fipp.mercadofipp.entities.Anuncio;
 import unoeste.fipp.mercadofipp.entities.Pergunta;
 import unoeste.fipp.mercadofipp.repositories.AnuncioRepository;
-
+import unoeste.fipp.mercadofipp.entities.Foto;
 import java.util.List;
 
 @Service
@@ -19,8 +19,10 @@ public class AnuncioService {
     {
         Anuncio novoAnuncio=anuncioRepository.save(anuncio);
         //agora grave as fotos na tabela de fotos
-        //for...
-        //   anuncioRepository.addFoto(....)
+        for (Foto foto : anuncio.getFotos())
+            anuncioRepository.addFoto(foto.getFile(), novoAnuncio.getId());
+
+
         return novoAnuncio;
     }
     public boolean addPergunta(long id_anuncio, String texto){
@@ -32,4 +34,15 @@ public class AnuncioService {
             return false;
         }
     }
+
+    public boolean addFoto(long id_anuncio, String file){
+        try {
+            anuncioRepository.addFoto(file, id_anuncio);
+            return true;
+        } catch (Exception e){
+            return false;
+        }
+    }
+
+
 }
