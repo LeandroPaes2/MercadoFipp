@@ -15,6 +15,9 @@ public class AnuncioService {
     public List<Anuncio> getAll(){
         return anuncioRepository.findAll();
     }
+
+
+
     public Anuncio add(Anuncio anuncio)
     {
         Anuncio novoAnuncio=anuncioRepository.save(anuncio);
@@ -44,5 +47,18 @@ public class AnuncioService {
         }
     }
 
+
+    public Anuncio getId(long id) {
+        return anuncioRepository.findById(id).get();
+    }
+
+    public List<Anuncio> getTitulob(String titulo) {
+        titulo = titulo + "%";
+        return anuncioRepository.getTitulob(titulo);
+    }
+
+    public List<Anuncio> getIdUsu(long id){
+        return anuncioRepository.getIdUsu(id);
+    }
 
 }
