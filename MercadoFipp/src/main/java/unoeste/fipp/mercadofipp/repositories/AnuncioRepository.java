@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import unoeste.fipp.mercadofipp.entities.Anuncio;
+import unoeste.fipp.mercadofipp.entities.Pergunta;
 import unoeste.fipp.mercadofipp.entities.Usuario;
 
 import java.util.List;
@@ -30,6 +31,15 @@ public interface AnuncioRepository extends JpaRepository<Anuncio, Long> {
     @Modifying
     @Transactional
     @Query(value = "SELECT * FROM anuncio WHERE usr_id = :id", nativeQuery = true)
-    public List<Anuncio> getIdUsu(@Param("id") Long id);
+    public List<Anuncio> getIdUsu(@Param("id") Long id );
 
+    @Modifying
+    @Transactional
+    @Query(value = "DELETE FROM pergunta_anuncio WHERE per_id = :id", nativeQuery = true)
+    public void deletePergunta(@Param("id") Long id);
+
+    @Modifying
+    @Transactional
+    @Query(value = "DELETE FROM pergunta_anuncio WHERE anu_id = :id", nativeQuery = true)
+    public void deleteAllPer(@Param("id") Long id);
 }

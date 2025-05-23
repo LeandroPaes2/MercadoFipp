@@ -12,6 +12,7 @@ import java.util.List;
 public class AnuncioService {
     @Autowired
     private AnuncioRepository anuncioRepository;
+
     public List<Anuncio> getAll(){
         return anuncioRepository.findAll();
     }
@@ -22,9 +23,8 @@ public class AnuncioService {
     {
         Anuncio novoAnuncio=anuncioRepository.save(anuncio);
         //agora grave as fotos na tabela de fotos
-        for (Foto foto : anuncio.getFotos())
-            anuncioRepository.addFoto(foto.getFile(), novoAnuncio.getId());
-
+        //for (Foto foto : anuncio.getFotos())
+        //anuncioRepository.addFoto(foto.getFile(), novoAnuncio.getId());
 
         return novoAnuncio;
     }
@@ -36,6 +36,16 @@ public class AnuncioService {
         catch (Exception e){
             return false;
         }
+    }
+
+    public boolean deletePergunta(long id){
+        try{
+            anuncioRepository.deletePergunta(id);
+            return true;
+        }catch (Exception e){
+            return false;
+        }
+
     }
 
     public boolean addFoto(long id_anuncio, String file){
@@ -59,6 +69,18 @@ public class AnuncioService {
 
     public List<Anuncio> getIdUsu(long id){
         return anuncioRepository.getIdUsu(id);
+    }
+
+    public boolean delete(long id){
+        try{
+            anuncioRepository.deleteAllPer(id);
+
+            anuncioRepository.delete(new Anuncio(id,"", null,"", 0, null, null));
+            return true;
+        }catch (Exception e){
+            return false;
+        }
+
     }
 
 }

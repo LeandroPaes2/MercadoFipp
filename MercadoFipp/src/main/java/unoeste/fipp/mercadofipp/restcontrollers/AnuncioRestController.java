@@ -52,6 +52,19 @@ public class AnuncioRestController {
                 return ResponseEntity.badRequest().body(new Erro("Usuario não encontrado"));
     }
 
+    @DeleteMapping("{id}")
+    public ResponseEntity<Object> delete(@PathVariable long id){
+        if(anuncioService.delete(id))
+            return ResponseEntity.noContent().build();
+        return ResponseEntity.badRequest().body(new Erro("Erro ao deletar o anuncio"));
+    }
+
+    @DeleteMapping("pergunta/{id}")
+    public ResponseEntity<Object> deletePergunta(@PathVariable long id){
+        if(anuncioService.deletePergunta(id))
+            return ResponseEntity.noContent().build();
+        return ResponseEntity.badRequest().body(new Erro("Erro ao deletar o anuncio"));
+    }
 
     @PostMapping("add-pergunta/{id}/{texto}")
     public ResponseEntity<Object> addPergunta(@PathVariable(name = "id") Long idAnuncio, @PathVariable(name = "texto") String texto){
