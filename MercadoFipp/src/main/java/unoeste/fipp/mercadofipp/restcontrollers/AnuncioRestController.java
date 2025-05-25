@@ -74,6 +74,13 @@ public class AnuncioRestController {
              return ResponseEntity.badRequest().body(new Erro("erro ao adicionar a pergunta"));
     }
 
+    @PostMapping("add-resposta/{id}/{resposta}")
+    public ResponseEntity<Object> addResposta(@PathVariable(name = "id") Long idAnuncio, @PathVariable(name = "resposta") String resposta){
+        if(anuncioService.addResposta(idAnuncio,resposta))
+            return ResponseEntity.noContent().build();
+        else
+            return ResponseEntity.badRequest().body(new Erro("erro ao adicionar a resposta"));
+    }
 
     @PostMapping
     public ResponseEntity<Object> save(@RequestBody Anuncio anuncio){

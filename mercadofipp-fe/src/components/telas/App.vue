@@ -7,8 +7,8 @@
 </template>
 
 <script>
-import FormCategoria from './components/FormCategoria.vue'
-import FormUsuario from './components/FormUsuario.vue'
+import FormCategoria from '../Formulario/FormCategoria.vue';
+import FormUsuario from '../Formulario/FormUsuario.vue';
 
 export default {
   name: 'App',

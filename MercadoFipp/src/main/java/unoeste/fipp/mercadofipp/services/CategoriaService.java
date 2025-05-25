@@ -2,6 +2,7 @@ package unoeste.fipp.mercadofipp.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import unoeste.fipp.mercadofipp.entities.Anuncio;
 import unoeste.fipp.mercadofipp.entities.Categoria;
 import unoeste.fipp.mercadofipp.repositories.CategoriaRepository;
 
@@ -20,6 +21,14 @@ public class CategoriaService {
 
     public Categoria getId(Long id) {
         return categoriaRepository.findById(id).get();
+    }
+
+
+    public Categoria add(Categoria categoria)
+    {
+        Categoria novaCategoria = categoriaRepository.save(categoria);
+
+        return novaCategoria;
     }
 
     public boolean delete(long id) {

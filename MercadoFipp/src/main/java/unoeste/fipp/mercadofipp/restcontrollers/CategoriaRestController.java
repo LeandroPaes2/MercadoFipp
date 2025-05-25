@@ -3,6 +3,7 @@ package unoeste.fipp.mercadofipp.restcontrollers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import unoeste.fipp.mercadofipp.entities.Anuncio;
 import unoeste.fipp.mercadofipp.entities.Categoria;
 import unoeste.fipp.mercadofipp.entities.Erro;
 import unoeste.fipp.mercadofipp.services.CategoriaService;
@@ -41,6 +42,16 @@ public class CategoriaRestController {
             return ResponseEntity.ok(categoria);
         return ResponseEntity.badRequest().body("Erro ao cadastrar a categoria");
     }
+
+    @PutMapping
+    public ResponseEntity<Object> update(@RequestBody Categoria categoria){
+        Categoria novaCategoria=categoriaService.add(categoria);
+        if(novaCategoria!=null)
+            return ResponseEntity.ok(novaCategoria);
+        else
+            return ResponseEntity.badRequest().body(new Erro("Erro ao alterar a Categoria"));
+    }
+
     // alterar
     //getId
     //apagar

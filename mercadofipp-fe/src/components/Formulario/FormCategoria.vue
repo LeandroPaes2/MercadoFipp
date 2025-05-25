@@ -3,8 +3,6 @@
     <h1>{{ msg }}</h1>
     <div v-if="formOn">
       <form @submit.prevent="this.gravar()">
-        <label for="idcat">Id</label>
-        <input type="text" id="idcat" v-model="id" placeholder="ID da Categoria..">
         <label for="name">Nome</label>
         <input type="text" id="name" v-model="nome" placeholder="Nome da Categoria..">
         <input type="submit" value="Cadastrar">

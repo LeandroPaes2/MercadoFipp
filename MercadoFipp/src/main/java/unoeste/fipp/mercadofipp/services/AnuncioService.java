@@ -17,7 +17,9 @@ public class AnuncioService {
         return anuncioRepository.findAll();
     }
 
-
+    public Anuncio save(Anuncio anuncio){
+        return anuncioRepository.save(anuncio);
+    }
 
     public Anuncio add(Anuncio anuncio)
     {
@@ -46,6 +48,16 @@ public class AnuncioService {
             return false;
         }
 
+    }
+
+    public boolean addResposta(long id_anuncio, String resposta){
+        try{
+            anuncioRepository.addResposta(resposta, id_anuncio);
+            return true;
+        }
+        catch (Exception e){
+            return false;
+        }
     }
 
     public boolean addFoto(long id_anuncio, String file){
