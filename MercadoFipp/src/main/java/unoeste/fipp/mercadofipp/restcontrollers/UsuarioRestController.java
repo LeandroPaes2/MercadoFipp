@@ -21,13 +21,22 @@ public class UsuarioRestController {
             return ResponseEntity.ok(usuarioList);
         return ResponseEntity.badRequest().body(new Erro("categorias não encontradas"));
     }
-    @GetMapping("{id}")
-    public ResponseEntity<Object> getId(@PathVariable int id){
-        Usuario usuario = usuarioService.getId((long)id);
+//    @GetMapping("{id}")
+//    public ResponseEntity<Object> getId(@PathVariable int id){
+//        Usuario usuario = usuarioService.getId((long)id);
+//        if(usuario!=null)
+//            return ResponseEntity.ok(usuario);
+//        return ResponseEntity.badRequest().body(new Erro("usuario não encontradas"));
+//    }
+
+    @GetMapping("{nome}")
+    public ResponseEntity<Object> getNome(@PathVariable(name = "nome") String nome){
+        Usuario usuario = usuarioService.getNome(nome);
         if(usuario!=null)
             return ResponseEntity.ok(usuario);
         return ResponseEntity.badRequest().body(new Erro("usuario não encontradas"));
     }
+
     @DeleteMapping("{id}")
     public ResponseEntity<Object> delete(@PathVariable int id){
         if(usuarioService.delete((long)id))

@@ -26,6 +26,10 @@ public class UsuarioService {
         return usuarioRepository.findById(id).get();
     }
 
+    public Usuario getNome(String nome) {
+        return usuarioRepository.getNome(nome);
+    }
+
     public boolean delete(long id) {
         try {
             usuarioRepository.delete(new Usuario(id, "","",0));
