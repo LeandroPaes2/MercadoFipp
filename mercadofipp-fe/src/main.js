@@ -19,6 +19,6 @@ const router = createRouter({
 })
 
 
-const app = createApp(Menu) 
+const app = createApp(App) 
 app.use(router)
 app.mount('#app')

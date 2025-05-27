@@ -15,14 +15,14 @@
                 <h2>Login</h2>
                 <input type="text" v-model="name" placeholder="Digite seu nome" />
                 <input type="password" v-model="senha" placeholder="Digite sua senha" />
-                <button @click="login">Entrar</button>
+                <button @click="this.login()">Entrar</button>
             </div>
             <!-- Cadastro -->
             <div v-else class="form">
                 <h2>Cadastro</h2>
-                <input type="text" v-model="signupName" placeholder="Digite seu nome" />
-                <input type="password" v-model="signupSenha" placeholder="Digite sua senha" />
-                <button @click="cadastrar">Cadastrar</button>
+                <input type="text" v-model="CadName" placeholder="Digite seu nome" />
+                <input type="password" v-model="CadSenha" placeholder="Digite sua senha" />
+                <button @click="this.gravar()">Cadastrar</button>
             </div>
         </div>
     </div>
@@ -35,16 +35,19 @@ export default {
     name: 'Login',
     data() {
         return {
+            id: 0,
             name: '',
             senha: '',
-            signupName: '',
-            signupSenha: '',
-            isSignup: false
+            CadName: '',
+            CadSenha: '',
+            CadLevel: 2,
+            isSignup: false,
+            usuarios: []
         };
     },
     methods: {
         login() {
-            axios.get(`http://localhost:8080/apis/usuario/${this.name}`)
+            axios.get(`http://localhost:8080/apis/usuario/teste/${this.name}`)
                 .then(response => {
                     const usuario = response.data;
                     if (usuario.senha === this.senha) {
@@ -56,27 +59,33 @@ export default {
                 .catch(() => {
                     alert('Usuário não encontrado');
                 });
-        },
-        cadastrar() {
-            const novoUsuario = {
-                nome: this.signupName,
-                senha: this.signupSenha
-            };
-            axios.post('http://localhost:8080/apis/usuario', novoUsuario)
-                .then(() => {
-                    alert('Usuário cadastrado com sucesso!');
-                    this.isSignup = false;
-                })
-                .catch(() => {
-                    alert('Erro ao cadastrar usuário');
-                });
         }
+        ,
+        gravar() {
+            const url = 'http://localhost:8080/apis/usuario';
+            const data = { CadName: this.CadName, Cadsenha: this.Cadsenha, };
+            axios.post(url, data)
+                .then(response => {
+                    alert('Usuário cadastrado com sucesso!');
+                    this.carregarDados();
+                })
+                .catch(error => {
+                    alert('Erro:', error);
+                });
+        },
+        carregarDados() {
+            axios.get("http://localhost:8080/apis/usuario")
+                .then(result => { this.usuarios = result.data })
+                .catch(error => { alert(error) })
+        }
+    },
+    mounted() {
+        this.carregarDados();
     }
 };
 </script>
 
 <style scoped>
-
 .container {
     background: #f8f6f2;
     height: 100vh;
@@ -208,6 +217,4 @@ export default {
     right: 0;
     bottom: 0;
 }
-
-
 </style>

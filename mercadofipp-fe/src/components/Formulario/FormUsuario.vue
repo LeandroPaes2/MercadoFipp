@@ -9,6 +9,8 @@
         <input type="text" id="name" v-model="nome" placeholder="Nome da Senha..">
         <label for="senha">Senha</label>
         <input type="text" id="senha" v-model="senha" placeholder="Senha ..">
+        <label for="nivel">Nivel</label>
+        <input type="text" id="nivel" v-model="nivel" placeholder="Digite o Nivel..">
         <input type="submit" value="Confirmar">
       </form>
     </div>
@@ -49,7 +51,7 @@ export default {
   },
   data() {
     return {
-      id: 0, nome: "", senha: "", formOn: false,
+      id: 0, nome: "", senha: "", nivel: 0,formOn: false,
       usuarios: []
     }
   },
@@ -59,7 +61,7 @@ export default {
     },
     gravar() {
       const url = 'http://localhost:8080/apis/usuario';
-      const data = { id: this.id, nome: this.nome, senha: this.senha };
+      const data = { nome: this.nome, senha: this.senha };
       axios.post(url, data)
         .then(response => {
           this.carregarDados();

@@ -1,8 +1,31 @@
 <template>
   <div id="menu">
+
+    <!-- Pesquisar (lupa) no canto superior esquerdo -->
+    <div class="search-container">
+      <input type="text" placeholder="Buscar..." id="busca">
+      <svg xmlns="http://www.w3.org/2000/svg" class="search-icon" width="20" height="20" viewBox="0 0 24 24"
+        stroke-width="2" fill="none" stroke="currentColor">
+        <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke-linejoin="round" stroke-linecap="round"></path>
+      </svg>
+    </div>
+
+    <!-- Ícones -->
     <div class="button-container">
 
+      <!-- Usuario (pessoinha) -->
+      <button class="button">
+        <router-link to="/form-usuario/Usuario" class="button">
+          <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" stroke-width="0"
+            fill="currentColor" stroke="currentColor" class="icon">
+            <path
+              d="M12 2.5a5.5 5.5 0 0 1 3.096 10.047 9.005 9.005 0 0 1 5.9 8.181.75.75 0 1 1-1.499.044 7.5 7.5 0 0 0-14.993 0 .75.75 0 0 1-1.5-.045 9.005 9.005 0 0 1 5.9-8.18A5.5 5.5 0 0 1 12 2.5ZM8 8a4 4 0 1 0 8 0 4 4 0 0 0-8 0Z">
+            </path>
+          </svg>
+        </router-link>
+      </button>
 
+      <!-- Menu (casinha) -->
       <button class="button">
         <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 1024 1024" stroke-width="0"
           fill="currentColor" stroke="currentColor" class="icon">
@@ -12,74 +35,37 @@
         </svg>
       </button>
 
+      <!-- Categorias (mais) -->
       <button class="button">
-        <svg
-        stroke="currentColor"
-        viewBox="0 0 24 24"
-        fill="none"
-        class="h-6 w-6"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-          stroke-width="2"
-          stroke-linejoin="round"
-          stroke-linecap="round"
-        ></path>
-      </svg>
-      
-    </button>
-
-      <button class="button">
-        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" aria-hidden="true" viewBox="0 0 24 24"
-          stroke-width="2" fill="none" stroke="currentColor" class="icon">
-          <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke-linejoin="round" stroke-linecap="round"></path>
+        <svg stroke="currentColor" viewBox="0 0 24 24" fill="none" class="h-6 w-6" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 6v6m0 0v6m0-6h6m-6 0H6" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"></path>
         </svg>
       </button>
 
-
+    
+      <!-- Carrinho (carrinho) -->
       <button class="button">
-        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" stroke-width="0"
-          fill="currentColor" stroke="currentColor" class="icon">
-          <path
-            d="M12 2.5a5.5 5.5 0 0 1 3.096 10.047 9.005 9.005 0 0 1 5.9 8.181.75.75 0 1 1-1.499.044 7.5 7.5 0 0 0-14.993 0 .75.75 0 0 1-1.5-.045 9.005 9.005 0 0 1 5.9-8.18A5.5 5.5 0 0 1 12 2.5ZM8 8a4 4 0 1 0 8 0 4 4 0 0 0-8 0Z">
-          </path>
-        </svg>
+        <router-link to="/form-categoria/Categoria" class="button">
+          <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" stroke-linejoin="round"
+            stroke-linecap="round" viewBox="0 0 24 24" stroke-width="2" fill="none" stroke="currentColor" class="icon">
+            <circle r="1" cy="21" cx="9"></circle>
+            <circle r="1" cy="21" cx="20"></circle>
+            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+          </svg>
+        </router-link>
       </button>
-
-      <button class="button">
-        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" stroke-linejoin="round" stroke-linecap="round"
-          viewBox="0 0 24 24" stroke-width="2" fill="none" stroke="currentColor" class="icon">
-          <circle r="1" cy="21" cx="9"></circle>
-          <circle r="1" cy="21" cx="20"></circle>
-          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-        </svg>
-      </button>
-    
-    
-    
-      <!-- ------------------------------------------------------------------------------------------------- -->
-
     </div>
-    <div id="menu-esquerda">
-      <div><router-link to="/form-categoria/Categoria">Categoria</router-link></div>
-      <div><router-link to="/form-usuario/Usuario">Usuário</router-link></div>
-    </div>
-    <div id="menu-direita">
-      <input type="text" placeholder="Buscar..." id="busca">
+
+    <div id="anuncios">
+      <div class="anuncio" v-for="n in 5" :key="n">
+        <a :href="'/anuncio/' + n">
+          <img :src="'https://via.placeholder.com/150?text=Anuncio+' + n">
+        </a>
+        <p>Anúncio {{ n }}</p>
+      </div>
     </div>
   </div>
 
-  <div id="anuncios">
-    <div class="anuncio" v-for="n in 5" :key="n">
-      <a :href="'/anuncio/' + n">
-        <img :src="'https://via.placeholder.com/150?text=Anuncio+' + n">
-      </a>
-      <p>Anúncio {{ n }}</p>
-    </div>
-  </div>
-
-  <!-- <router-view></router-view> => ta abrindo ctegoria e usuario embaixo da pagina de menu(login tbm)-->
 </template>
 
 <script>
@@ -100,10 +86,21 @@ export default {
 
 #menu {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   align-items: center;
+  /* Alinha à esquerda */
   background-color: #FFFAF0;
   padding: 10px;
+}
+
+.menu-lateral {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  max-width: 1000px;
+  /* ajuste conforme o tamanho desejado */
+  margin-top: 10px;
+  /* espaçamento da barra rosa */
 }
 
 #menu-esquerda {
@@ -129,24 +126,32 @@ export default {
   align-items: center;
 }
 
+.search-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+
+  /* margin-bottom: 10px; */
+}
+
 #busca {
-  padding: 5px;
+  padding: 5px 30px 5px 10px;
   border-radius: 5px;
   border: none;
 }
 
-/* da net */
-
 .button-container {
   display: flex;
   background-color: rgba(245, 73, 144);
-  width: 250px;
+  padding: 0 20px;
   height: 40px;
   align-items: center;
   justify-content: center;
   border-radius: 10px;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px,
     rgba(245, 73, 144, 0.5) 5px 10px 15px;
+  gap: 20px;
 }
 
 .button {
@@ -172,10 +177,124 @@ export default {
   font-size: 20px;
 }
 
+.search-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+#busca {
+  padding: 5px 30px 5px 10px;
+  /* espaço à direita p/ ícone */
+  border-radius: 5px;
+  border: none;
+}
+
+.search-icon {
+  position: absolute;
+  right: 10px;
+  cursor: pointer;
+  color: #555;
+}
+
+/* ------------------------------------------------------------------- CATEGORIAS ------------------------------------------------------------------- */
+
+.button-categoria {
+  cursor: pointer;
+  position: absolute;
+  z-index: 1;
+  background-color: #ffdd00;
+  border: 2px solid #1e1e1e;
+  color: #1e1e1e;
+  font-size: 30px;
+  font-weight: 700;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  -webkit-box-shadow: 0px 3px 10px 0px rgba(16, 16, 16, 0.5);
+  -moz-box-shadow: 0px 3px 10px 0px rgba(16, 16, 16, 0.5);
+  box-shadow: 0px 3px 10px 0px rgba(16, 16, 16, 0.5);
+}
+
+.checkbox {
+  width: 60px;
+  height: 60px;
+  opacity: 0;
+  z-index: 10;
+  cursor: pointer;
+}
+
+.option {
+  position: absolute;
+  background-color: #1e1e1e;
+  border: 2px solid #ffdd00;
+  color: #ffdd00;
+  z-index: -1;
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-weight: 700;
+  transition: all 0.3s;
+  -webkit-box-shadow: 3px 3px 10px 0px rgba(16, 16, 16, 0.5);
+  -moz-box-shadow: 3px 3px 10px 0px rgba(16, 16, 16, 0.5);
+  box-shadow: 3px 3px 10px 0px rgba(16, 16, 16, 0.5);
+}
+
+.checkbox:hover~.button-categoria,
+.checkbox:checked~.button-categoria {
+  background-color: #eccd00;
+  scale: 0.98;
+  box-shadow: none;
+}
+
+.checkbox:not(:checked)~.button-categoria::before {
+  content: "+";
+}
+
+.checkbox:checked~.button-categoria::after {
+  content: "-";
+  scale: 0.98;
+  box-shadow: none;
+}
+
+.checkbox:not(:checked)~.option {
+  box-shadow: none;
+}
+
+.option:hover,
+.option:active,
+.option:focus {
+  box-shadow: none;
+  scale: 0.98;
+}
+
+.checkbox:checked~.option-a {
+  transition-delay: 0.1s;
+  transform: translateX(70px);
+}
+
+.checkbox:checked~.option-b {
+  transition-delay: 0.2s;
+  transform: translateX(140px);
+}
+
+.checkbox:checked~.option-c {
+  transition-delay: 0.3s;
+  transform: translateX(210px);
+}
+
+.categoria-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
 
 /* --------------------------------------------------------------- CARDS DOS ANUNCIOS --------------------------------------------------------------- */
-
-
 
 #anuncios {
   display: flex;
