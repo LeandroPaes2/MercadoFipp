@@ -1,9 +1,9 @@
 <template>
   <div id="menu">
-
+    <img src="@/assets/logo.png" class="logo">
     <!-- Pesquisar (lupa) no canto superior esquerdo -->
     <div class="search-container">
-      <input type="text" placeholder="Buscar..." id="busca">
+        <input type="text" placeholder="Buscar..." id="busca">
       <svg xmlns="http://www.w3.org/2000/svg" class="search-icon" width="20" height="20" viewBox="0 0 24 24"
         stroke-width="2" fill="none" stroke="currentColor">
         <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke-linejoin="round" stroke-linecap="round"></path>
@@ -27,21 +27,24 @@
 
       <!-- Menu (casinha) -->
       <button class="button">
+        <router-link to="/menu" class="button">
         <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 1024 1024" stroke-width="0"
           fill="currentColor" stroke="currentColor" class="icon">
           <path
             d="M946.5 505L560.1 118.8l-25.9-25.9a31.5 31.5 0 0 0-44.4 0L77.5 505a63.9 63.9 0 0 0-18.8 46c.4 35.2 29.7 63.3 64.9 63.3h42.5V940h691.8V614.3h43.4c17.1 0 33.2-6.7 45.3-18.8a63.6 63.6 0 0 0 18.7-45.3c0-17-6.7-33.1-18.8-45.2zM568 868H456V664h112v204zm217.9-325.7V868H632V640c0-22.1-17.9-40-40-40H432c-22.1 0-40 17.9-40 40v228H238.1V542.3h-96l370-369.7 23.1 23.1L882 542.3h-96.1z">
           </path>
         </svg>
+        </router-link>
       </button>
 
-      <!-- Categorias (mais) -->
-      <button class="button">
-        <svg stroke="currentColor" viewBox="0 0 24 24" fill="none" class="h-6 w-6" xmlns="http://www.w3.org/2000/svg">
-          <path d="M12 6v6m0 0v6m0-6h6m-6 0H6" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"></path>
-        </svg>
-      </button>
+      <!-- Categorias (mais) --> 
+  <button id="toggleMenu" class="button">
+    <svg viewBox="0 0 24 24" fill="none" height="24" width="24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="svg w-6 h-6 text-gray-800 dark:text-white">
+      <path d="m17 21-5-4-5 4V3.889a.92.92 0 0 1 .244-.629.808.808 0 0 1 .59-.26h8.333a.81.81 0 0 1 .589.26.92.92 0 0 1 .244.63V21Z" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" stroke="currentColor"></path>
+    </svg>
+  </button>
 
+  
     
       <!-- Carrinho (carrinho) -->
       <button class="button">
@@ -54,8 +57,13 @@
           </svg>
         </router-link>
       </button>
-    </div>
+    </div> 
+  </div>
 
+
+
+
+    <!-- Anuncios -->
     <div id="anuncios">
       <div class="anuncio" v-for="n in 5" :key="n">
         <a :href="'/anuncio/' + n">
@@ -64,13 +72,14 @@
         <p>Anúncio {{ n }}</p>
       </div>
     </div>
-  </div>
-
 </template>
+
+
 
 <script>
 import FormCategoria from '../Formulario/FormCategoria.vue';
 import FormUsuario from '../Formulario/FormUsuario.vue';
+
 
 export default {
   name: 'Menu',
@@ -84,14 +93,21 @@ export default {
 <style>
 /* ---------------------------------------------------------------------- MENU ---------------------------------------------------------------------- */
 
+.logo{
+  width: 60px;
+  position: absolute;
+  left: 20px;
+  top: 10px;
+}
+
 #menu {
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* Alinha à esquerda */
-  background-color: #FFFAF0;
+  background-color: #0c343c;
   padding: 10px;
-}
+
+} 
 
 .menu-lateral {
   display: flex;
@@ -131,26 +147,29 @@ export default {
   display: flex;
   align-items: center;
   margin-left: auto;
-
   /* margin-bottom: 10px; */
 }
 
 #busca {
-  padding: 5px 30px 5px 10px;
+  padding: 10px 30px 5px 10px;
   border-radius: 5px;
   border: none;
+  position: absolute;
+  top: 7px;
+  right: 20px;
+
 }
 
 .button-container {
   display: flex;
-  background-color: rgba(245, 73, 144);
+  background-color: rgb(155 141 42);;
   padding: 0 20px;
   height: 40px;
   align-items: center;
   justify-content: center;
   border-radius: 10px;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px,
-    rgba(245, 73, 144, 0.5) 5px 10px 15px;
+    rgba(105, 104, 94, 0.5) 5px 10px 15px;
   gap: 20px;
 }
 
@@ -181,132 +200,31 @@ export default {
   position: relative;
   display: flex;
   align-items: center;
-}
-
-#busca {
-  padding: 5px 30px 5px 10px;
-  /* espaço à direita p/ ícone */
-  border-radius: 5px;
-  border: none;
+  padding-top: 10px;
 }
 
 .search-icon {
   position: absolute;
-  right: 10px;
+  top: 17px;
+  right: 25px;
   cursor: pointer;
   color: #555;
 }
 
 /* ------------------------------------------------------------------- CATEGORIAS ------------------------------------------------------------------- */
 
-.button-categoria {
-  cursor: pointer;
-  position: absolute;
-  z-index: 1;
-  background-color: #ffdd00;
-  border: 2px solid #1e1e1e;
-  color: #1e1e1e;
-  font-size: 30px;
-  font-weight: 700;
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  -webkit-box-shadow: 0px 3px 10px 0px rgba(16, 16, 16, 0.5);
-  -moz-box-shadow: 0px 3px 10px 0px rgba(16, 16, 16, 0.5);
-  box-shadow: 0px 3px 10px 0px rgba(16, 16, 16, 0.5);
-}
 
-.checkbox {
-  width: 60px;
-  height: 60px;
-  opacity: 0;
-  z-index: 10;
-  cursor: pointer;
-}
 
-.option {
-  position: absolute;
-  background-color: #1e1e1e;
-  border: 2px solid #ffdd00;
-  color: #ffdd00;
-  z-index: -1;
-  width: 55px;
-  height: 55px;
-  border-radius: 50%;
-  cursor: pointer;
-  font-weight: 700;
-  transition: all 0.3s;
-  -webkit-box-shadow: 3px 3px 10px 0px rgba(16, 16, 16, 0.5);
-  -moz-box-shadow: 3px 3px 10px 0px rgba(16, 16, 16, 0.5);
-  box-shadow: 3px 3px 10px 0px rgba(16, 16, 16, 0.5);
-}
-
-.checkbox:hover~.button-categoria,
-.checkbox:checked~.button-categoria {
-  background-color: #eccd00;
-  scale: 0.98;
-  box-shadow: none;
-}
-
-.checkbox:not(:checked)~.button-categoria::before {
-  content: "+";
-}
-
-.checkbox:checked~.button-categoria::after {
-  content: "-";
-  scale: 0.98;
-  box-shadow: none;
-}
-
-.checkbox:not(:checked)~.option {
-  box-shadow: none;
-}
-
-.option:hover,
-.option:active,
-.option:focus {
-  box-shadow: none;
-  scale: 0.98;
-}
-
-.checkbox:checked~.option-a {
-  transition-delay: 0.1s;
-  transform: translateX(70px);
-}
-
-.checkbox:checked~.option-b {
-  transition-delay: 0.2s;
-  transform: translateX(140px);
-}
-
-.checkbox:checked~.option-c {
-  transition-delay: 0.3s;
-  transform: translateX(210px);
-}
-
-.categoria-wrapper {
-  position: relative;
-  display: flex;
-  align-items: center;
-}
 
 /* --------------------------------------------------------------- CARDS DOS ANUNCIOS --------------------------------------------------------------- */
 
 #anuncios {
   display: flex;
-  flex-wrap: nowrap;
-  /* Impede quebrar de linha */
-  gap: 30px;
-  /* Espaçamento entre os cards */
+  justify-content: center;
+  flex-wrap: nowrap; /* Impede quebrar de linha */
+  gap: 50px; /* Espaçamento entre os cards */
   margin: 40px auto;
-  max-width: 100%;
-  /* Pode ocupar toda largura */
-  overflow-x: auto;
-  /* Se não couber, cria rolagem horizontal */
+  max-width: 100%;/* Pode ocupar toda largura */
 }
 
 .anuncio {

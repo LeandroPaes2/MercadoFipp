@@ -20,8 +20,8 @@
             <!-- Cadastro -->
             <div v-else class="form">
                 <h2>Cadastro</h2>
-                <input type="text" v-model="CadName" placeholder="Digite seu nome" />
-                <input type="password" v-model="CadSenha" placeholder="Digite sua senha" />
+                <input type="text" id="name" v-model="CadName" placeholder="Digite seu nome" />
+                <input type="password" id="senha" v-model="CadSenha" placeholder="Digite sua senha" />
                 <button @click="this.gravar()">Cadastrar</button>
             </div>
         </div>
@@ -46,6 +46,9 @@ export default {
         };
     },
     methods: {
+        mostrarForm(flag) {
+            this.formOn = flag;
+        },
         login() {
             axios.get(`http://localhost:8080/apis/usuario/teste/${this.name}`)
                 .then(response => {
@@ -63,14 +66,19 @@ export default {
         ,
         gravar() {
             const url = 'http://localhost:8080/apis/usuario';
-            const data = { CadName: this.CadName, Cadsenha: this.Cadsenha, };
+            const data = {
+                nome: this.CadName,
+                senha: this.CadSenha,
+                nivel: this.CadLevel
+            };
             axios.post(url, data)
                 .then(response => {
                     alert('Usuário cadastrado com sucesso!');
                     this.carregarDados();
+                    this.isSignup = false;
                 })
                 .catch(error => {
-                    alert('Erro:', error);
+                    alert('Erro ao cadastrar usuário: ' + error.message);
                 });
         },
         carregarDados() {
@@ -86,8 +94,8 @@ export default {
 </script>
 
 <style scoped>
+
 .container {
-    background: #f8f6f2;
     height: 100vh;
     display: flex;
     flex-direction: column;
@@ -110,7 +118,7 @@ export default {
 }
 
 .switcher span.active {
-    color: #007BFF;
+    color:rgb(255, 255, 255);
 }
 
 .switch {
@@ -199,14 +207,14 @@ export default {
     padding: 10px;
     border: none;
     border-radius: 8px;
-    background: #007BFF;
+    background: #0b5154;
     color: white;
     font-weight: bold;
     cursor: pointer;
 }
 
 .form button:hover {
-    background: #0056b3;
+    background: #0c343c;
 }
 
 /* Flip */

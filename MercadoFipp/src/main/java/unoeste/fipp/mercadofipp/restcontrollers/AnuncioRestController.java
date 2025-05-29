@@ -1,14 +1,17 @@
 package unoeste.fipp.mercadofipp.restcontrollers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import unoeste.fipp.mercadofipp.entities.Anuncio;
 import unoeste.fipp.mercadofipp.entities.Erro;
 import unoeste.fipp.mercadofipp.repositories.AnuncioRepository;
 import unoeste.fipp.mercadofipp.services.AnuncioService;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("apis/anuncio")
@@ -82,14 +85,14 @@ public class AnuncioRestController {
             return ResponseEntity.badRequest().body(new Erro("erro ao adicionar a resposta"));
     }
 
-    @PostMapping
-    public ResponseEntity<Object> save(@RequestBody Anuncio anuncio){
-        Anuncio novoAnuncio=anuncioService.add(anuncio);
-        if(novoAnuncio!=null)
-            return ResponseEntity.ok(novoAnuncio);
-        else
-            return ResponseEntity.badRequest().body(new Erro("Erro ao gravar o Anuncio"));
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<Object> addAnuncio(@RequestPart("anuncio") Anuncio anuncio, @RequestPart("fotos") MultipartFile[] fotos) {
+        Anuncio novo = anuncioService.save(anuncio, fotos);
+        if (novo != null)
+            return ResponseEntity.ok(anuncio);
+        return ResponseEntity.badRequest().body(new Erro("Erro ao cadastrar anúncio!"));
     }
+
     @PutMapping
     public ResponseEntity<Object> update(@RequestBody Anuncio anuncio){
         Anuncio novoAnuncio=anuncioService.add(anuncio);
@@ -99,12 +102,11 @@ public class AnuncioRestController {
             return ResponseEntity.badRequest().body(new Erro("Erro ao alterar o Anuncio"));
     }
 
+    @PostMapping(value = "add-foto/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<Object> addFoto(@PathVariable(name = "id") Long idAnuncio, @RequestParam("fotos") MultipartFile[] fotos) {
+        if (anuncioService.addFoto(idAnuncio, fotos))
+            return ResponseEntity.ok().body(Map.of("mensagem", "Fotos adicionadas com sucesso!"));
+        return ResponseEntity.badRequest().body(new Erro("Erro ao adicionar fotos!"));
+    }
 
-    //    @PostMapping("add-foto/{id}/{file}")
-//    public ResponseEntity<Object> addFoto(@PathVariable(name = "id") Long idAnuncio, @PathVariable(name = "file") String file){
-//        if(anuncioService.addFoto(idAnuncio,file))
-//            return ResponseEntity.noContent().build();
-//        else
-//            return ResponseEntity.badRequest().body(new Erro("erro ao adicionar a foto"));
-//    }
 }

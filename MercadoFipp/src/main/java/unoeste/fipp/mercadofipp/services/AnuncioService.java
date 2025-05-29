@@ -2,11 +2,14 @@ package unoeste.fipp.mercadofipp.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import unoeste.fipp.mercadofipp.entities.Anuncio;
 import unoeste.fipp.mercadofipp.entities.Pergunta;
 import unoeste.fipp.mercadofipp.repositories.AnuncioRepository;
 import unoeste.fipp.mercadofipp.entities.Foto;
 import java.util.List;
+
+import static unoeste.fipp.mercadofipp.Filefoto.salvarFotoNoDisco;
 
 @Service
 public class AnuncioService {
@@ -17,8 +20,11 @@ public class AnuncioService {
         return anuncioRepository.findAll();
     }
 
-    public Anuncio save(Anuncio anuncio){
-        return anuncioRepository.save(anuncio);
+    public Anuncio save(Anuncio anuncio, MultipartFile[] fotos) {
+        Anuncio novoAnuncio = anuncioRepository.save(anuncio);
+        if (novoAnuncio != null)
+            addFoto(novoAnuncio.getId(), fotos);
+        return novoAnuncio;
     }
 
     public Anuncio add(Anuncio anuncio)
@@ -30,6 +36,7 @@ public class AnuncioService {
 
         return novoAnuncio;
     }
+
     public boolean addPergunta(long id_anuncio, String texto){
         try{
             anuncioRepository.addPergunta(texto, id_anuncio);
@@ -60,11 +67,15 @@ public class AnuncioService {
         }
     }
 
-    public boolean addFoto(long id_anuncio, String file){
+    public boolean addFoto(long id_anuncio, MultipartFile[] fotos) {
         try {
-            anuncioRepository.addFoto(file, id_anuncio);
+            for (MultipartFile foto : fotos) {
+                String nome = salvarFotoNoDisco(foto); // você que implementa
+                anuncioRepository.addFoto(id_anuncio, nome);
+            }
             return true;
-        } catch (Exception e){
+        } catch (Exception e) {
+            e.printStackTrace();
             return false;
         }
     }
