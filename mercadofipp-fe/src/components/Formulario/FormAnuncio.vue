@@ -1,5 +1,4 @@
 <template>
-
   <div id="menu" style="padding: 15px">
     <img src="@/assets/logo.png" class="logo">
     <div>
@@ -8,53 +7,40 @@
         <button @click="logout()">Logout</button>
       </div>
     </div>
-
-    <!-- Ícones -->
+    <!-- Ícones iguais aos outros formulários -->
     <div class="button-container">
-
-      <!-- Usuario (pessoinha) -->
       <button class="button">
         <router-link to="/form-usuario/Usuario" class="button">
-          <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" stroke-width="0"
-            fill="currentColor" stroke="currentColor" class="icon">
+          <!-- ícone usuário -->
+          <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor">
             <path
-              d="M12 2.5a5.5 5.5 0 0 1 3.096 10.047 9.005 9.005 0 0 1 5.9 8.181.75.75 0 1 1-1.499.044 7.5 7.5 0 0 0-14.993 0 .75.75 0 0 1-1.5-.045 9.005 9.005 0 0 1 5.9-8.18A5.5 5.5 0 0 1 12 2.5ZM8 8a4 4 0 1 0 8 0 4 4 0 0 0-8 0Z">
-            </path>
+              d="M12 2.5a5.5 5.5 0 0 1 3.096 10.047 9.005 9.005 0 0 1 5.9 8.181.75.75 0 1 1-1.499.044 7.5 7.5 0 0 0-14.993 0 .75.75 0 0 1-1.5-.045 9.005 9.005 0 0 1 5.9-8.18A5.5 5.5 0 0 1 12 2.5ZM8 8a4 4 0 1 0 8 0 4 4 0 0 0-8 0Z" />
           </svg>
         </router-link>
       </button>
-
-      <!-- Menu (casinha) -->
       <button class="button">
         <router-link to="/menu" class="button">
-          <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 1024 1024" stroke-width="0"
-            fill="currentColor" stroke="currentColor" class="icon">
+          <!-- ícone menu -->
+          <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 1024 1024" fill="currentColor">
             <path
-              d="M946.5 505L560.1 118.8l-25.9-25.9a31.5 31.5 0 0 0-44.4 0L77.5 505a63.9 63.9 0 0 0-18.8 46c.4 35.2 29.7 63.3 64.9 63.3h42.5V940h691.8V614.3h43.4c17.1 0 33.2-6.7 45.3-18.8a63.6 63.6 0 0 0 18.7-45.3c0-17-6.7-33.1-18.8-45.2zM568 868H456V664h112v204zm217.9-325.7V868H632V640c0-22.1-17.9-40-40-40H432c-22.1 0-40 17.9-40 40v228H238.1V542.3h-96l370-369.7 23.1 23.1L882 542.3h-96.1z">
-            </path>
+              d="M946.5 505L560.1 118.8l-25.9-25.9a31.5 31.5 0 0 0-44.4 0L77.5 505a63.9 63.9 0 0 0-18.8 46c.4 35.2 29.7 63.3 64.9 63.3h42.5V940h691.8V614.3h43.4c17.1 0 33.2-6.7 45.3-18.8a63.6 63.6 0 0 0 18.7-45.3c0-17-6.7-33.1-18.8-45.2zM568 868H456V664h112v204zm217.9-325.7V868H632V640c0-22.1-17.9-40-40-40H432c-22.1 0-40 17.9-40 40v228H238.1V542.3h-96l370-369.7 23.1 23.1L882 542.3h-96.1z" />
           </svg>
         </router-link>
       </button>
-
-      <!-- Categorias (mais) -->
       <button id="toggleMenu" class="button">
         <router-link to="/form-anuncio/Anuncio" class="button">
           <svg viewBox="0 0 24 24" fill="none" height="24" width="24" xmlns="http://www.w3.org/2000/svg"
             aria-hidden="true" class="svg w-6 h-6 text-gray-800 dark:text-white">
             <path
               d="m17 21-5-4-5 4V3.889a.92.92 0 0 1 .244-.629.808.808 0 0 1 .59-.26h8.333a.81.81 0 0 1 .589.26.92.92 0 0 1 .244.63V21Z"
-              stroke-width="2" stroke-linejoin="round" stroke-linecap="round" stroke="currentColor"></path>
+              stroke-width="2" stroke-linejoin="round" stroke-linecap="round" stroke="currentColor" />
           </svg>
         </router-link>
       </button>
-
-
-
-      <!-- Carrinho (carrinho) -->
       <button class="button">
         <router-link to="/form-categoria/Categoria" class="button">
-          <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" stroke-linejoin="round"
-            stroke-linecap="round" viewBox="0 0 24 24" stroke-width="2" fill="none" stroke="currentColor" class="icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" stroke-width="2"
+            fill="none" stroke="currentColor">
             <circle r="1" cy="21" cx="9"></circle>
             <circle r="1" cy="21" cx="20"></circle>
             <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
@@ -64,23 +50,47 @@
     </div>
   </div>
 
-
   <div>
     <div class="container-usuario">
       <h1 class="titulo">{{ msg }}</h1>
 
       <div v-if="formOn" class="form-box">
         <form @submit.prevent="this.gravar()" class="formulario">
-          <label for="name">Nome</label>
-          <input type="text" id="name" v-model="nome" placeholder="Nome do Usuário..." />
+          <label for="titulo">Título</label>
+          <input type="text" id="titulo" v-model="titulo" placeholder="Título do anúncio..." required>
 
-          <input type="submit" value="Confirmar" class="btn-confirmar" />
+          <label for="data">Data</label>
+          <input type="date" id="data" v-model="data" required>
+
+          <label for="descricao">Descrição</label>
+          <textarea id="descricao" v-model="descricao" placeholder="Descrição do anúncio..." required></textarea>
+
+          <label for="preco">Preço</label>
+          <input type="number" id="preco" v-model.number="preco" placeholder="Preço em R$" step="0.01" required>
+
+          <label for="categoria">Categoria</label>
+          <select id="categoria" v-model="categoria" required>
+            <option disabled value="">Selecione uma categoria</option>
+            <option v-for="cat in categorias" :key="cat.id" :value="cat.id">{{ cat.nome }}</option>
+          </select>
+
+          <!-- Usuário selecionado/ logado -->
+          <label for="usuario">Usuário</label>
+          <input type="text" id="usuario" v-model="usuarioLogado.nome" disabled>
+
+          <!-- <select id="usuario" v-model="usuario" required>
+          <option  :key="usuarioLogado.id" :value="usuarioLogado.id">{{ this.usuarioLogado.nome }}</option>
+        </select> -->
+
+
+
+          <input type="submit" value="Cadastrar">
         </form>
       </div>
 
       <div class="btn-novo-container">
         <button @click="this.mostrarForm(true)" class="btn-novo">
-          Nova Categoria
+          Novo Anuncio
         </button>
       </div>
     </div>
@@ -90,16 +100,26 @@
         <thead>
           <tr>
             <th class="p-4 border-b border-blue-gray-100 bg-blue-gray-50">Id</th>
-            <th @click="ordenarNome()">Nome</th>
+            <th @click="ordenarPorTitulo">Título</th>
+            <th>Data</th>
+            <th>Descrição</th>
+            <th>Preço</th>
+            <th>Categoria</th>
+            <th>Usuário</th>
             <th colspan="2">Ações</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="cat in this.categorias">
-            <td class="p-4 border-b border-blue-gray-50">{{ cat.id }}</td>
-            <td>{{ cat.nome }}</td>
+          <tr v-for="an in anuncios" :key="an.id">
+            <td class="p-4 border-b border-blue-gray-50">{{ an.id }}</td>
+            <td>{{ an.titulo }}</td>
+            <td>{{ an.data }}</td>
+            <td>{{ an.descricao }}</td>
+            <td>R$ {{ an.preco.toFixed(2) }}</td>
+            <td>{{ getNomeCategoria(an.categoria) }}</td>
+            <td>{{ getNomeUsuario(an.usuario) }}</td>
             <td style="justify-items: center;">
-              <button @click="this.alterar(cat.id)" class="button">
+              <button @click="this.alterar(an.id)" class="button">
                 <span class="shadow"></span>
                 <span class="edge"></span>
                 <div class="front">
@@ -108,7 +128,7 @@
               </button>
             </td>
             <td style="justify-items: center;">
-              <button @click="this.apagar(cat.id)" class="button">
+              <button @click="this.apagar(an.id)" class="button">
                 <span class="edge"></span>
                 <div class="front">
                   <span>Excluir</span>
@@ -126,14 +146,25 @@
 import axios from 'axios'
 
 export default {
-  name: 'FormCategoria',
+  name: 'FormAnuncio',
   props: {
     msg: String
   },
   data() {
     return {
-      id: 0, nome: "", formOn: false, alterando: false,
-      categorias: [], usuarioLogado: {}
+      id: 0,
+      titulo: "",
+      data: "",
+      descricao: "",
+      preco: 0,
+      categoria: "",
+      usuario: "",
+      formOn: false,
+      anuncios: [],
+      categorias: [],
+      usuarios: [],
+      usuarioLogado: {},
+      alterando: false
     }
   },
   created() {
@@ -142,8 +173,10 @@ export default {
       this.$router.push('/') // Redireciona se não estiver logado
     }
     else {
+
       this.usuarioLogado = JSON.parse(this.usuarioLogado)
     }
+    this.carregarDados();
   },
   methods: {
     logout() {
@@ -154,58 +187,110 @@ export default {
       this.formOn = flag;
     },
     gravar() {
-      const url = 'http://localhost:8080/apis/categoria';
-      let data
-      if (!this.alterando)
-        data = { nome: this.nome };
+      const url = 'http://localhost:8080/apis/anuncio';
+      let data;
+      
+      if (!this.alterando) {
+        data = {
+          titulo: this.titulo,
+          data: this.data,
+          descricao: this.descricao,
+          preco: this.preco,
+          categoria: this.categoria,
+          usuario: this.usuarioLogado.id
+        };
+      }
       else
-        data = { id: this.id, nome: this.nome };
+      {
+        data = {
+          id: this.id,
+          titulo: this.titulo,
+          data: this.data,
+          descricao: this.descricao,
+          preco: this.preco,
+          categoria: this.categoria,
+          usuario: this.usuarioLogado.id
+        };
+      }
+      console.log(data.id);
+      console.log(data.titulo);
+      console.log(data.data);
+      console.log(data.descricao);
+      console.log(data.preco);
+      console.log(data.categoria);
+      console.log(data.usuarioLogado.id);
       axios.post(url, data)
-        .then(response => {
+        .then(() => {
           this.carregarDados();
         })
         .catch(error => {
-          alert('Erro:', error);
+          alert('Erro: ' + error);
         });
-      this.mostrarForm(false);
+      this.limpar();
+      this.formOn = false;
       this.alterando = false;
-      this.id = 0;
-      this.nome = "";
-    },
-    apagar(id) {
-      axios.delete("http://localhost:8080/apis/categoria/" + id)
-        .then(result => { this.carregarDados() })
-        .catch(error => { alert(error) })
-    },
-    alterar(id) {
-      this.formOn = true;
-      axios.get("http://localhost:8080/apis/categoria/" + id)
-        .then(result => {
-          const categoria = result.data;
-          this.id = categoria.id;
-          this.nome = categoria.nome;
-        })
-        .catch(error => { alert(error) })
-
-      alert('Alterando ' + id);
-      this.alterando = true;
     },
     carregarDados() {
-      axios.get("http://localhost:8080/apis/categoria")
-        .then(result => { this.categorias = result.data })
-        .catch(error => { alert(error) })
+      axios.get('http://localhost:8080/apis/anuncio')
+        .then(res => {
+          this.anuncios = res.data;
+        });
+      axios.get('http://localhost:8080/apis/categoria')
+        .then(res => {
+          this.categorias = res.data;
+        });
+      axios.get('http://localhost:8080/apis/usuario')
+        .then(res => {
+          this.usuarios = res.data;
+        });
     },
-    ordenarNome() {
-      this.categorias.sort((a, b) => a.nome.localeCompare(b.nome));
+    apagar(id) {
+      if (confirm("Confirma a exclusão do anúncio " + id + "?")) {
+        axios.delete('http://localhost:8080/apis/anuncio/' + id)
+          .then(() => {
+            this.carregarDados();
+          });
+      }
+    },
+    alterar(id) {
+      const an = this.anuncios.find(an => an.id === id);
+      if (an) {
+        this.id = an.id;
+        this.titulo = an.titulo;
+        this.data = an.data;
+        this.descricao = an.descricao;
+        this.preco = an.preco;
+        this.categoria = an.categoria;
+        this.usuario = an.usuario;
+        this.formOn = true;
+      }
+      this.alterando = true;
+    },
+    limpar() {
+      this.id = 0;
+      this.titulo = "";
+      this.data = "";
+      this.descricao = "";
+      this.preco = 0;
+      this.categoria = "";
+      this.usuario = "";
+    },
+    getNomeCategoria(idCat) {
+      const cat = this.categorias.find(c => c.id === idCat);
+      return cat ? cat.nome : '';
+    },
+    getNomeUsuario(idUsu) {
+      const usu = this.usuarios.find(u => u.id === idUsu);
+      return usu ? usu.nome : '';
+    },
+    ordenarPorTitulo() {
+      this.anuncios.sort((a, b) => a.titulo.localeCompare(b.titulo));
     }
-  },
-  mounted() {
-    this.carregarDados();
   }
+
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .container-usuario {
   background-color: #004b4b;

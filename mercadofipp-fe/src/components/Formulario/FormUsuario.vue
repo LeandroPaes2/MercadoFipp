@@ -1,12 +1,19 @@
 <template>
-<div id="menu" style="padding: 15px">
+
+  <div id="menu" style="padding: 15px">
     <img src="@/assets/logo.png" class="logo">
+    <div>
+      <div v-if="usuarioLogado">
+        Usuário logado: {{ this.usuarioLogado.nome }}
+        <button @click="logout()">Logout</button>
+      </div>
+    </div>
 
     <!-- Ícones -->
     <div class="button-container">
 
 
-<!-- Usuario (pessoinha) -->
+      <!-- Usuario (pessoinha) -->
       <button class="button">
         <router-link to="/form-usuario/Usuario" class="button">
           <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" stroke-width="0"
@@ -21,24 +28,29 @@
       <!-- Menu (casinha) -->
       <button class="button">
         <router-link to="/menu" class="button">
-        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 1024 1024" stroke-width="0"
-          fill="currentColor" stroke="currentColor" class="icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 1024 1024" stroke-width="0"
+            fill="currentColor" stroke="currentColor" class="icon">
+            <path
+              d="M946.5 505L560.1 118.8l-25.9-25.9a31.5 31.5 0 0 0-44.4 0L77.5 505a63.9 63.9 0 0 0-18.8 46c.4 35.2 29.7 63.3 64.9 63.3h42.5V940h691.8V614.3h43.4c17.1 0 33.2-6.7 45.3-18.8a63.6 63.6 0 0 0 18.7-45.3c0-17-6.7-33.1-18.8-45.2zM568 868H456V664h112v204zm217.9-325.7V868H632V640c0-22.1-17.9-40-40-40H432c-22.1 0-40 17.9-40 40v228H238.1V542.3h-96l370-369.7 23.1 23.1L882 542.3h-96.1z">
+            </path>
+          </svg>
+        </router-link>
+      </button>
+
+      <!-- Categorias (mais) -->
+      <button id="toggleMenu" class="button">
+        <router-link to="/form-anuncio/Anuncio" class="button">
+        <svg viewBox="0 0 24 24" fill="none" height="24" width="24" xmlns="http://www.w3.org/2000/svg"
+          aria-hidden="true" class="svg w-6 h-6 text-gray-800 dark:text-white">
           <path
-            d="M946.5 505L560.1 118.8l-25.9-25.9a31.5 31.5 0 0 0-44.4 0L77.5 505a63.9 63.9 0 0 0-18.8 46c.4 35.2 29.7 63.3 64.9 63.3h42.5V940h691.8V614.3h43.4c17.1 0 33.2-6.7 45.3-18.8a63.6 63.6 0 0 0 18.7-45.3c0-17-6.7-33.1-18.8-45.2zM568 868H456V664h112v204zm217.9-325.7V868H632V640c0-22.1-17.9-40-40-40H432c-22.1 0-40 17.9-40 40v228H238.1V542.3h-96l370-369.7 23.1 23.1L882 542.3h-96.1z">
-          </path>
+            d="m17 21-5-4-5 4V3.889a.92.92 0 0 1 .244-.629.808.808 0 0 1 .59-.26h8.333a.81.81 0 0 1 .589.26.92.92 0 0 1 .244.63V21Z"
+            stroke-width="2" stroke-linejoin="round" stroke-linecap="round" stroke="currentColor"></path>
         </svg>
         </router-link>
       </button>
 
-      <!-- Categorias (mais) --> 
-  <button id="toggleMenu" class="button">
-    <svg viewBox="0 0 24 24" fill="none" height="24" width="24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="svg w-6 h-6 text-gray-800 dark:text-white">
-      <path d="m17 21-5-4-5 4V3.889a.92.92 0 0 1 .244-.629.808.808 0 0 1 .59-.26h8.333a.81.81 0 0 1 .589.26.92.92 0 0 1 .244.63V21Z" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" stroke="currentColor"></path>
-    </svg>
-  </button>
 
-  
-    
+
       <!-- Carrinho (carrinho) -->
       <button class="button">
         <router-link to="/form-categoria/Categoria" class="button">
@@ -50,45 +62,73 @@
           </svg>
         </router-link>
       </button>
-    </div> 
+    </div>
   </div>
 
 
-<div>
-    <h1>{{ msg }}</h1>
-    <div v-if="formOn">
-      <form @submit.prevent="this.gravar()">
-        <label for="idusu">Id</label>
-        <input type="text" id="idusu" v-model="id" placeholder="ID da Senha..">
+  <div>
+    <div class="container-usuario">
+    <h1 class="titulo">{{ msg }}</h1>
+
+    <div v-if="formOn" class="form-box">
+      <form @submit.prevent="this.gravar()" class="formulario">
         <label for="name">Nome</label>
-        <input type="text" id="name" v-model="nome" placeholder="Nome da Senha..">
+        <input type="text" id="name" v-model="nome" placeholder="Nome do Usuário..." />
+
         <label for="senha">Senha</label>
-        <input type="text" id="senha" v-model="senha" placeholder="Senha ..">
-        <label for="nivel">Nivel</label>
-        <input type="text" id="nivel" v-model="nivel" placeholder="Digite o Nivel..">
-        <input type="submit" value="Confirmar">
+        <input type="password" id="senha" v-model="senha" placeholder="Senha ..." />
+
+        <label for="nivel">Nível</label>
+        <select id="nivel" v-model="nivel">
+          <option value="1">Administrador</option>
+          <option value="2">Comum</option>
+        </select>
+
+        <input type="submit" value="Confirmar" class="btn-confirmar" />
       </form>
     </div>
-    <div style="display: flex; justify-content: flex-end;">
-      <button @click="this.mostrarForm(true)">Novo Usuario</button>
+
+    <div class="btn-novo-container">
+      <button @click="this.mostrarForm(true)" class="btn-novo">
+        Novo Usuário
+      </button>
     </div>
-    <div>
-      <table id="customers">
+  </div>
+    <div
+      class="relative flex flex-col w-full h-full overflow-scroll text-gray-700 bg-white shadow-md rounded-xl bg-clip-border">
+      <table id="customers" class="w-full text-left table-auto min-w-max">
         <thead>
           <tr>
-            <th>Id</th>
+            <th class="p-4 border-b border-blue-gray-100 bg-blue-gray-50">Id</th>
             <th @click="ordenarNome()">Nome</th>
             <th>Senha</th>
+            <th>Nivel</th>
             <th colspan="2">Ações</th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="usu in this.usuarios">
-            <td>{{ usu.id }}</td>
+            <td class="p-4 border-b border-blue-gray-50">{{ usu.id }}</td>
             <td>{{ usu.nome }}</td>
             <td>{{ usu.senha }}</td>
-            <td><button @click="this.alterar(usu.id)">Alterar</button></td>
-            <td><button @click="this.apagar(usu.id)">Apagar</button></td>
+            <td>{{ usu.nivel }}</td>
+            <td style="justify-items: center;">
+              <button @click="this.alterar(usu.id)" class="button">
+                <span class="shadow"></span>
+                <span class="edge"></span>
+                <div class="front">
+                  <span>Alterar</span>
+                </div>
+              </button>
+            </td>
+            <td style="justify-items: center;">
+              <button @click="this.apagar(usu.id)" class="button">
+                <span class="edge"></span>
+                <div class="front">
+                  <span>Excluir</span>
+                </div>
+              </button>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -109,8 +149,19 @@ export default {
   },
   data() {
     return {
-      id: 0, nome: "", senha: "", nivel: 0,formOn: false,
-      usuarios: []
+      id: 0, nome: "", senha: "", nivel: 0, formOn: false, alterarando: false ,
+      usuarios: [],usuarioLogado:{}
+    }
+  },
+  created() {
+    this.usuarioLogado = localStorage.getItem('usuarioLogado')
+    if (!this.usuarioLogado) {
+      this.$router.push('/') // Redireciona se não estiver logado
+    }
+    else {
+      if(this.usuarioLogado.nivel != 1)
+        this.$router.push('/menu');
+      this.usuarioLogado = JSON.parse(this.usuarioLogado);
     }
   },
   methods: {
@@ -119,7 +170,11 @@ export default {
     },
     gravar() {
       const url = 'http://localhost:8080/apis/usuario';
-      const data = { nome: this.nome, senha: this.senha };
+      let data;
+      if(!this.alterarando)
+        data = {  nome: this.nome, senha: this.senha, nivel: this.nivel };
+      else
+        data = {id:this.id  ,nome: this.nome, senha: this.senha, nivel: this.nivel };
       axios.post(url, data)
         .then(response => {
           this.carregarDados();
@@ -128,6 +183,10 @@ export default {
           alert('Erro:', error);
         });
       this.mostrarForm(false);
+      this.nome="";
+      this.senha="";
+      this.nivel=0;
+      this.alterarando=false;
     },
     apagar(id) {
       axios.delete("http://localhost:8080/apis/usuario/" + id)
@@ -136,12 +195,14 @@ export default {
     },
     alterar(id) {
       this.formOn = true;
+      this.alterarando=true;
       axios.get("http://localhost:8080/apis/usuario/" + id)
         .then(result => {
-          const categoria = result.data;
-          this.id = categoria.id;
-          this.nome = categoria.nome;
-          this.senha = categoria.senha;
+          const usuario = result.data;
+          this.id = usuario.id;
+          this.nome = usuario.nome;
+          this.senha = usuario.senha;
+          this.nivel = usuario.nivel;
         })
         .catch(error => { alert(error) })
 
@@ -149,7 +210,7 @@ export default {
     carregarDados() {
       axios.get("http://localhost:8080/apis/usuario")
         .then(result => { this.usuarios = result.data })
-        .catch(error => { alert(error) })
+        .catch(error => { alert(error) });
     },
     ordenarNome() {
       this.usuarios.sort((a, b) => a.nome.localeCompare(b.nome));
@@ -164,6 +225,73 @@ export default {
 <!-- ////////////////////////////////////// -->
 
 <style scoped>
+
+.container-usuario {
+  background-color: #004b4b;
+  padding: 30px;
+  min-height: 100vh;
+  color: white;
+}
+
+.titulo {
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 2rem;
+}
+
+.form-box {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.formulario {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.formulario input,
+.formulario select {
+  padding: 12px;
+  border-radius: 6px;
+  border: none;
+  font-size: 1rem;
+}
+
+.btn-confirmar {
+  background-color: #28a745;
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+.btn-confirmar:hover {
+  background-color: #218838;
+}
+
+.btn-novo-container {
+  display: flex;
+  justify-content: flex-end;
+  padding: 20px;
+}
+
+.btn-novo {
+  background-color: #1c1f3f;
+  color: white;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn-novo:hover {
+  background-color: #2e3255;
+}
+
+
 input[type=text],
 select {
   width: 100%;
@@ -218,7 +346,85 @@ div {
   padding-top: 12px;
   padding-bottom: 12px;
   text-align: left;
-  background-color: blueviolet;
+  background-color: #2F4F4F;
   color: white;
+}
+
+/* button */
+
+.button {
+  position: relative;
+  border: none;
+  background: transparent;
+  padding: 0;
+  outline: none;
+  cursor: pointer;
+  font-family: sans-serif;
+
+}
+
+/* Shadow layer */
+.button .shadow {
+  position: absolute;
+  top: 0;
+  left: 0px;
+  width: 50%;
+  height: 50%;
+  background: rgba(0, 0, 0, 0.25);
+  border-radius: 8px;
+  transform: translateY(2px);
+  transition: transform 600ms cubic-bezier(0.3, 0.7, 0.4, 1);
+}
+
+/* Edge layer */
+.button .edge {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 50%;
+  border-radius: 8px;
+  background: linear-gradient(to left,
+      hsl(217, 33%, 16%) 0%,
+      hsl(217, 33%, 32%) 8%,
+      hsl(217, 33%, 32%) 92%,
+      hsl(217, 33%, 16%) 100%);
+}
+
+/* Front layer */
+.button .front {
+
+  padding: 12px 28px;
+  color: white;
+  background: hsl(217, 33%, 17%);
+  border-radius: 8px;
+  transform: translateY(-4px);
+  transition: transform 600ms cubic-bezier(0.3, 0.7, 0.4, 1);
+}
+
+/* Hover and active states */
+.button:hover .shadow {
+  transform: translateY(4px);
+  transition: transform 250ms cubic-bezier(0.3, 0.7, 0.4, 1.5);
+}
+
+.button:hover .front {
+  transform: translateY(-6px);
+  transition: transform 250ms cubic-bezier(0.3, 0.7, 0.4, 1.5);
+}
+
+.button:active .shadow {
+  transform: translateY(1px);
+  transition: transform 34ms;
+}
+
+.button:active .front {
+  transform: translateY(-2px);
+  transition: transform 34ms;
+}
+
+/* Disable text selection */
+.button .front span {
+  user-select: none;
 }
 </style>

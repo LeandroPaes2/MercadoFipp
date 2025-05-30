@@ -3,11 +3,17 @@
     <img src="@/assets/logo.png" class="logo">
     <!-- Pesquisar (lupa) no canto superior esquerdo -->
     <div class="search-container">
-        <input type="text" placeholder="Buscar..." id="busca">
+      <input type="text" placeholder="Buscar..." id="busca">
       <svg xmlns="http://www.w3.org/2000/svg" class="search-icon" width="20" height="20" viewBox="0 0 24 24"
         stroke-width="2" fill="none" stroke="currentColor">
         <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke-linejoin="round" stroke-linecap="round"></path>
       </svg>
+    </div>
+    <div>
+      <div v-if="usuarioLogado">
+        Usuário logado: {{ this.usuarioLogado.nome }}
+        <button @click="logout()">Logout</button>
+      </div>
     </div>
 
     <!-- Ícones -->
@@ -28,24 +34,29 @@
       <!-- Menu (casinha) -->
       <button class="button">
         <router-link to="/menu" class="button">
-        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 1024 1024" stroke-width="0"
-          fill="currentColor" stroke="currentColor" class="icon">
-          <path
-            d="M946.5 505L560.1 118.8l-25.9-25.9a31.5 31.5 0 0 0-44.4 0L77.5 505a63.9 63.9 0 0 0-18.8 46c.4 35.2 29.7 63.3 64.9 63.3h42.5V940h691.8V614.3h43.4c17.1 0 33.2-6.7 45.3-18.8a63.6 63.6 0 0 0 18.7-45.3c0-17-6.7-33.1-18.8-45.2zM568 868H456V664h112v204zm217.9-325.7V868H632V640c0-22.1-17.9-40-40-40H432c-22.1 0-40 17.9-40 40v228H238.1V542.3h-96l370-369.7 23.1 23.1L882 542.3h-96.1z">
-          </path>
-        </svg>
+          <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 1024 1024" stroke-width="0"
+            fill="currentColor" stroke="currentColor" class="icon">
+            <path
+              d="M946.5 505L560.1 118.8l-25.9-25.9a31.5 31.5 0 0 0-44.4 0L77.5 505a63.9 63.9 0 0 0-18.8 46c.4 35.2 29.7 63.3 64.9 63.3h42.5V940h691.8V614.3h43.4c17.1 0 33.2-6.7 45.3-18.8a63.6 63.6 0 0 0 18.7-45.3c0-17-6.7-33.1-18.8-45.2zM568 868H456V664h112v204zm217.9-325.7V868H632V640c0-22.1-17.9-40-40-40H432c-22.1 0-40 17.9-40 40v228H238.1V542.3h-96l370-369.7 23.1 23.1L882 542.3h-96.1z">
+            </path>
+          </svg>
         </router-link>
       </button>
 
-      <!-- Categorias (mais) --> 
-  <button id="toggleMenu" class="button">
-    <svg viewBox="0 0 24 24" fill="none" height="24" width="24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="svg w-6 h-6 text-gray-800 dark:text-white">
-      <path d="m17 21-5-4-5 4V3.889a.92.92 0 0 1 .244-.629.808.808 0 0 1 .59-.26h8.333a.81.81 0 0 1 .589.26.92.92 0 0 1 .244.63V21Z" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" stroke="currentColor"></path>
-    </svg>
-  </button>
+      <!-- Categorias (mais) -->
+      <button id="toggleMenu" class="button">
+        <router-link to="/form-anuncio/Anuncio" class="button">
+          <svg viewBox="0 0 24 24" fill="none" height="24" width="24" xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true" class="svg w-6 h-6 text-gray-800 dark:text-white">
+            <path
+              d="m17 21-5-4-5 4V3.889a.92.92 0 0 1 .244-.629.808.808 0 0 1 .59-.26h8.333a.81.81 0 0 1 .589.26.92.92 0 0 1 .244.63V21Z"
+              stroke-width="2" stroke-linejoin="round" stroke-linecap="round" stroke="currentColor"></path>
+          </svg>
+        </router-link>
+      </button>
 
-  
-    
+
+
       <!-- Carrinho (carrinho) -->
       <button class="button">
         <router-link to="/form-categoria/Categoria" class="button">
@@ -57,23 +68,101 @@
           </svg>
         </router-link>
       </button>
-    </div> 
+    </div>
   </div>
 
 
 
 
-    <!-- Anuncios -->
-    <div id="anuncios">
+  <!-- Anuncios -->
+
+  <!-- <div id="anuncios">
       <div class="anuncio" v-for="n in 5" :key="n">
         <a :href="'/anuncio/' + n">
           <img :src="'https://via.placeholder.com/150?text=Anuncio+' + n">
         </a>
         <p>Anúncio {{ n }}</p>
       </div>
+    </div> -->
+
+  <!-- <div id="anuncios">
+    <div class="anuncio" v-for="(imagens, index) in listaAnuncios" :key="index">
+      <div class="carrossel">
+        <img :src="imagens[imagemAtual[index]]" alt="Imagem do anúncio">
+        <div class="botoes">
+          <button @click="anterior(index)">&#10094;</button>
+          <button @click="proximo(index)">&#10095;</button>
+        </div>
+      </div>
+      <p>Anúncio {{ index + 1 }}</p>
     </div>
+  </div> -->
+
+  <div id="anuncios">
+    <div class="anuncio" v-for="(imagens, index) in listaAnuncios" :key="index">
+      <Swiper :modules="[Navigation]" :navigation="false" class="carrossel" ref="swiperRefs[index]">
+        <SwiperSlide v-for="(img, idx) in imagens" :key="idx">
+          <img :src="img" alt="Imagem do anúncio">
+        </SwiperSlide>
+      </Swiper>
+      <div class="botoes-swiper">
+        <button @click="slidePrev(index)">&#10094;</button>
+        <button @click="slideNext(index)">&#10095;</button>
+      </div>
+      <p>Anúncio {{ index + 1 }}</p>
+    </div>
+  </div>
+
+
+
 </template>
 
+
+<script setup>import { Swiper, SwiperSlide } from 'swiper/vue';
+import 'swiper/css';
+import { Navigation } from 'swiper/modules';
+import { ref, onMounted } from 'vue';
+
+const listaAnuncios = [
+  [
+    'https://via.placeholder.com/300x300?text=Anuncio+1+Imagem+1',
+    'https://via.placeholder.com/300x300?text=Anuncio+1+Imagem+2',
+    'https://via.placeholder.com/300x300?text=Anuncio+1+Imagem+3'
+  ],
+  [
+    'https://via.placeholder.com/300x300?text=Anuncio+2+Imagem+1',
+    'https://via.placeholder.com/300x300?text=Anuncio+2+Imagem+2'
+  ],
+  [
+    'https://via.placeholder.com/300x300?text=Anuncio+3+Imagem+1',
+    'https://via.placeholder.com/300x300?text=Anuncio+3+Imagem+2',
+    'https://via.placeholder.com/300x300?text=Anuncio+3+Imagem+3'
+  ],
+  [
+    'https://via.placeholder.com/300x300?text=Anuncio+4+Imagem+1'
+  ],
+  [
+    'https://via.placeholder.com/300x300?text=Anuncio+5+Imagem+1',
+    'https://via.placeholder.com/300x300?text=Anuncio+5+Imagem+2'
+  ],
+];
+
+// Cria uma lista de referências para os carrosseis
+const swiperRefs = ref([]);
+
+onMounted(() => {
+  swiperRefs.value = listaAnuncios.map(() => null);
+});
+
+const slidePrev = (index) => {
+  swiperRefs.value[index]?.swiper.slidePrev();
+};
+
+const slideNext = (index) => {
+  swiperRefs.value[index]?.swiper.slideNext();
+};
+
+</script>
 
 
 <script>
@@ -83,6 +172,26 @@ import FormUsuario from '../Formulario/FormUsuario.vue';
 
 export default {
   name: 'Menu',
+  data() {
+    return {
+      usuarioLogado: {}
+    }
+  },
+  created() {
+    this.usuarioLogado = localStorage.getItem('usuarioLogado')
+    if (!this.usuarioLogado) {
+      this.$router.push('/') // Redireciona se não estiver logado
+    }
+    else{
+      this.usuarioLogado = JSON.parse(this.usuarioLogado)
+    }
+  },
+  methods: {
+    logout() {
+      localStorage.removeItem('usuarioLogado')
+      this.$router.push('/')
+    }
+  },
   components: {
     FormCategoria,
     FormUsuario
@@ -91,9 +200,46 @@ export default {
 </script>
 
 <style>
+.carrossel {
+  position: relative;
+}
+
+.carrossel img {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.botoes {
+  position: absolute;
+  top: 50%;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  transform: translateY(-50%);
+}
+
+.botoes button {
+  background-color: rgba(0, 0, 0, 0.5);
+  border: none;
+  color: white;
+  font-size: 18px;
+  cursor: pointer;
+  padding: 5px 10px;
+  border-radius: 50%;
+  transition: background-color 0.3s;
+}
+
+.botoes button:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+
+
 /* ---------------------------------------------------------------------- MENU ---------------------------------------------------------------------- */
 
-.logo{
+.logo {
   width: 60px;
   position: absolute;
   left: 20px;
@@ -107,7 +253,7 @@ export default {
   background-color: #0c343c;
   padding: 10px;
 
-} 
+}
 
 .menu-lateral {
   display: flex;
@@ -162,7 +308,8 @@ export default {
 
 .button-container {
   display: flex;
-  background-color: rgb(155 141 42);;
+  background-color: rgb(155 141 42);
+  ;
   padding: 0 20px;
   height: 40px;
   align-items: center;
@@ -221,10 +368,13 @@ export default {
 #anuncios {
   display: flex;
   justify-content: center;
-  flex-wrap: nowrap; /* Impede quebrar de linha */
-  gap: 50px; /* Espaçamento entre os cards */
+  flex-wrap: nowrap;
+  /* Impede quebrar de linha */
+  gap: 50px;
+  /* Espaçamento entre os cards */
   margin: 40px auto;
-  max-width: 100%;/* Pode ocupar toda largura */
+  max-width: 100%;
+  /* Pode ocupar toda largura */
 }
 
 .anuncio {
@@ -257,9 +407,55 @@ export default {
   color: #2F4F4F;
 }
 
+.swiper-button-next,
+.swiper-button-prev {
+  position: static;
+  margin: 0 10px;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.5);
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+  color: #ffd700;
+  /* Dourado ou outra cor que combine */
+}
+
+.botoes-swiper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+  gap: 20px;
+}
+
+.swiper-button-next::after,
+.swiper-button-prev::after {
+  font-size: 16px;
+  font-weight: bold;
+}
+
 .anuncio:hover {
   transform: translateY(-10px);
 }
+
+.swiper-button-next::after {
+  content: '›';
+}
+
+.swiper-button-prev::after {
+  content: '‹';
+}
+
 
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;

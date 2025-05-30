@@ -15,6 +15,8 @@ public class Usuario {
     private String senha;
     @Column(name="usr_level")
     private int nivel;
+
+
     public Usuario() {
 
     }
@@ -56,4 +58,5 @@ public class Usuario {
     public void setNivel(int nivel) {
         this.nivel = nivel;
     }
+
 }

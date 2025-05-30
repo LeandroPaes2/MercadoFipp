@@ -54,6 +54,8 @@ export default {
                 .then(response => {
                     const usuario = response.data;
                     if (usuario.senha === this.senha) {
+                        usuario.senha = null;
+                        localStorage.setItem('usuarioLogado', JSON.stringify(usuario))
                         this.$router.push('/menu');
                     } else {
                         alert('Senha incorreta');
@@ -69,7 +71,7 @@ export default {
             const data = {
                 nome: this.CadName,
                 senha: this.CadSenha,
-                nivel: this.CadLevel
+                nivel: this.CadLevel = 2
             };
             axios.post(url, data)
                 .then(response => {
@@ -146,7 +148,7 @@ export default {
     transition: 0.4s;
 }
 
-.slider:before {
+.slider:before { 
     position: absolute;
     content: "";
     height: 18px;

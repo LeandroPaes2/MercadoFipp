@@ -30,6 +30,13 @@ public class UsuarioService {
         return usuarioRepository.getNome(nome);
     }
 
+    public Usuario add(Usuario usuario)
+    {
+        Usuario novoUsuario = usuarioRepository.save(usuario);
+
+        return novoUsuario;
+    }
+
     public boolean delete(long id) {
         try {
             usuarioRepository.delete(new Usuario(id, "","",0));

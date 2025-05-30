@@ -82,8 +82,9 @@ public class AnuncioService {
 
 
     public Anuncio getId(long id) {
-        return anuncioRepository.findById(id).get();
+        return anuncioRepository.findById(id).orElse(null);
     }
+
 
     public List<Anuncio> getTitulob(String titulo) {
         titulo = titulo + "%";
@@ -98,7 +99,7 @@ public class AnuncioService {
         try{
             anuncioRepository.deleteAllPer(id);
 
-            anuncioRepository.delete(new Anuncio(id,"", null,"", 0, null, null));
+            anuncioRepository.deleteById(id);
             return true;
         }catch (Exception e){
             return false;

@@ -13,6 +13,7 @@ import unoeste.fipp.mercadofipp.services.AnuncioService;
 import java.util.List;
 import java.util.Map;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("apis/anuncio")
 public class AnuncioRestController {
@@ -77,13 +78,24 @@ public class AnuncioRestController {
              return ResponseEntity.badRequest().body(new Erro("erro ao adicionar a pergunta"));
     }
 
-    @PostMapping("add-resposta/{id}/{resposta}")
-    public ResponseEntity<Object> addResposta(@PathVariable(name = "id") Long idAnuncio, @PathVariable(name = "resposta") String resposta){
-        if(anuncioService.addResposta(idAnuncio,resposta))
+//    @PostMapping("add-resposta/{id}/{resposta}")
+//    public ResponseEntity<Object> addResposta(@PathVariable(name = "id") Long idAnuncio, @PathVariable(name = "resposta") String resposta){
+//        if(anuncioService.addResposta(idAnuncio,resposta))
+//            return ResponseEntity.noContent().build();
+//        else
+//            return ResponseEntity.badRequest().body(new Erro("erro ao adicionar a resposta"));
+//    }
+
+    @PostMapping("add-pergunta/{id}/{resposta}")
+    public ResponseEntity<Object> addResposta(@PathVariable Long id, @PathVariable String resposta) {
+        try {
+            anuncioService.addResposta(id, resposta);
             return ResponseEntity.noContent().build();
-        else
-            return ResponseEntity.badRequest().body(new Erro("erro ao adicionar a resposta"));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(new Erro("Erro ao responder pergunta"));
+        }
     }
+
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Object> addAnuncio(@RequestPart("anuncio") Anuncio anuncio, @RequestPart("fotos") MultipartFile[] fotos) {
@@ -92,6 +104,15 @@ public class AnuncioRestController {
             return ResponseEntity.ok(anuncio);
         return ResponseEntity.badRequest().body(new Erro("Erro ao cadastrar anúncio!"));
     }
+
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Object> addAnuncioJson(@RequestBody Anuncio anuncio) {
+        Anuncio novo = anuncioService.add(anuncio);
+        if (novo != null)
+            return ResponseEntity.ok(novo);
+        return ResponseEntity.badRequest().body(new Erro("Erro ao cadastrar anúncio!"));
+    }
+
 
     @PutMapping
     public ResponseEntity<Object> update(@RequestBody Anuncio anuncio){

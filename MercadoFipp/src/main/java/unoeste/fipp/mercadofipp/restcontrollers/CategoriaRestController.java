@@ -52,6 +52,7 @@ public class CategoriaRestController {
             return ResponseEntity.badRequest().body(new Erro("Erro ao alterar a Categoria"));
     }
 
+
     // alterar
     //getId
     //apagar

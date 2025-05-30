@@ -50,6 +50,15 @@ public class UsuarioRestController {
             return ResponseEntity.ok(usuario);
         return ResponseEntity.badRequest().body("Erro ao cadastrar o usuario");
     }
+
+    @PutMapping
+    public ResponseEntity<Object> update(@RequestBody Usuario usuario){
+        Usuario novoUsuario = usuarioService.add(usuario);
+        if(novoUsuario != null)
+            return ResponseEntity.ok(novoUsuario);
+        else
+            return ResponseEntity.badRequest().body(new Erro("Erro ao alterar o Usuario"));
+    }
     // alterar
     //getId
     //apagar
