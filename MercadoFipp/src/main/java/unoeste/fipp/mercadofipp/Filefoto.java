@@ -21,7 +21,7 @@ public class Filefoto {
 
         // Gera nome único
         String extensao = getExtensao(arquivo.getOriginalFilename());
-        String nomeUnico = UUID.randomUUID().toString() + extensao;
+        String nomeUnico = arquivo.getOriginalFilename() + extensao;
 
         // Caminho completo
         Path caminho = Paths.get(DIRETORIO_UPLOADS, nomeUnico);

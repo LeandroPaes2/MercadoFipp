@@ -71,8 +71,8 @@
           <label for="categoria">Categoria</label>
           <select id="categoria" v-model="categoria" required>
             <option disabled value="">Selecione uma categoria</option>
-            <option v-for="cat in categorias" :key="cat.id" :value="cat">
-              {{ cat.nome }}
+            <option v-for=" categoria in categorias" :key="categoria.id" :value="categoria">
+              {{ categoria.nome }}
             </option>
           </select>
 
@@ -118,8 +118,8 @@
             <td>{{ an.data }}</td>
             <td>{{ an.descricao }}</td>
             <td>R$ {{ an.preco.toFixed(2) }}</td>
-            <td>{{ getNomeCategoria(an.categoria) }}</td>
-            <td>{{ getNomeUsuario(an.usuario) }}</td>
+            <td>{{ an.categoria.nome }}</td>
+            <td>{{ an.usuario.nome }}</td>
             <td style="justify-items: center;">
               <button @click="this.alterar(an.id)" class="button">
                 <span class="shadow"></span>
@@ -159,10 +159,7 @@ export default {
       data: "",
       descricao: "",
       preco: 0,
-      categoria: {
-        id: 0,
-        nome: ""
-      },
+      categoria: "",
       usuario: "",
       formOn: false,
       anuncios: [],
@@ -179,7 +176,7 @@ export default {
     }
     else {
 
-      this.usuarioLogado = JSON.parse(this.usuarioLogado)
+      this.usuarioLogado = JSON.parse(this.usuarioLogado);
     }
     this.carregarDados();
   },
@@ -194,7 +191,6 @@ export default {
     gravar() {
       const url = 'http://localhost:8080/apis/anuncio';
       let data;
-      this.categoria = document.getElementById('categoria').value;
       if (!this.alterando) {
         data = {
           titulo: this.titulo,
@@ -216,7 +212,7 @@ export default {
           data: this.data,
           descricao: this.descricao,
           preco: this.preco,
-          categoria: this.categoria,
+          categoria: this.categoria.id,
           usuario: this.usuarioLogado.id
         };
       }

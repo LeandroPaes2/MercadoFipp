@@ -25,8 +25,8 @@ public interface AnuncioRepository extends JpaRepository<Anuncio, Long> {
 
     @Modifying
     @Transactional
-    @Query(value = "UPDATE pergunta_anuncio SET per_resp = :resposta WHERE per_id = :id_pergunta", nativeQuery = true)
-    public void addResposta(@Param("resposta") String resposta, @Param("id_pergunta") Long idPergunta);
+    @Query(value = "UPDATE pergunta_anuncio SET per_resp = :resposta WHERE per_id = :id_pergunta AND  anu_id = :id_anuncio", nativeQuery = true)
+    public void addResposta(@Param("resposta") String resposta,@Param("id_anuncio") Long idAnuncio ,@Param("id_pergunta") Long idPergunta);
 
 
 

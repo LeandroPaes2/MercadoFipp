@@ -57,9 +57,9 @@ public class AnuncioService {
 
     }
 
-    public boolean addResposta(long id_anuncio, String resposta){
+    public boolean addResposta(long id_anuncio,long id ,String resposta){
         try{
-            anuncioRepository.addResposta(resposta, id_anuncio);
+            anuncioRepository.addResposta(resposta, id_anuncio,id);
             return true;
         }
         catch (Exception e){
