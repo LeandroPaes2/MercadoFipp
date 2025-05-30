@@ -71,7 +71,9 @@
           <label for="categoria">Categoria</label>
           <select id="categoria" v-model="categoria" required>
             <option disabled value="">Selecione uma categoria</option>
-            <option v-for="cat in categorias" :key="cat.id" :value="cat.id">{{ cat.nome }}</option>
+            <option v-for="cat in categorias" :key="cat.id" :value="cat">
+              {{ cat.nome }}
+            </option>
           </select>
 
           <!-- Usuário selecionado/ logado -->
@@ -157,7 +159,10 @@ export default {
       data: "",
       descricao: "",
       preco: 0,
-      categoria: "",
+      categoria: {
+        id: 0,
+        nome: ""
+      },
       usuario: "",
       formOn: false,
       anuncios: [],
@@ -189,7 +194,7 @@ export default {
     gravar() {
       const url = 'http://localhost:8080/apis/anuncio';
       let data;
-      
+      this.categoria = document.getElementById('categoria').value;
       if (!this.alterando) {
         data = {
           titulo: this.titulo,
@@ -197,11 +202,14 @@ export default {
           descricao: this.descricao,
           preco: this.preco,
           categoria: this.categoria,
-          usuario: this.usuarioLogado.id
+          usuario: {
+            id: this.usuarioLogado.id,
+            nome: this.usuarioLogado.nome,
+            nivel: this.usuarioLogado.nivel
+          }
         };
       }
-      else
-      {
+      else {
         data = {
           id: this.id,
           titulo: this.titulo,
@@ -218,7 +226,7 @@ export default {
       console.log(data.descricao);
       console.log(data.preco);
       console.log(data.categoria);
-      console.log(data.usuarioLogado.id);
+      console.log(data.usuario);
       axios.post(url, data)
         .then(() => {
           this.carregarDados();

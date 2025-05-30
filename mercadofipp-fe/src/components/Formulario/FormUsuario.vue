@@ -159,12 +159,18 @@ export default {
       this.$router.push('/') // Redireciona se não estiver logado
     }
     else {
-      if(this.usuarioLogado.nivel != 1)
-        this.$router.push('/menu');
       this.usuarioLogado = JSON.parse(this.usuarioLogado);
+      if(this.usuarioLogado.nivel != 1)
+      {
+        this.$router.push('/menu');
+      }
     }
   },
   methods: {
+    logout() {
+      localStorage.removeItem('usuarioLogado')
+      this.$router.push('/')
+    },
     mostrarForm(flag) {
       this.formOn = flag;
     },
