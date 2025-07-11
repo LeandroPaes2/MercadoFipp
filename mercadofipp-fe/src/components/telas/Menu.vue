@@ -2,6 +2,7 @@
   <div id="menu">
     <img src="@/assets/logo.png" class="logo">
     <!-- Pesquisar (lupa) no canto superior esquerdo -->
+    
     <div class="search-container">
       <input type="text" placeholder="Buscar..." id="busca">
       <svg xmlns="http://www.w3.org/2000/svg" class="search-icon" width="20" height="20" viewBox="0 0 24 24"
@@ -9,10 +10,10 @@
         <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke-linejoin="round" stroke-linecap="round"></path>
       </svg>
     </div>
-    <div>
+    <div style="position: absolute; right: 15%; top: 1.5%; color: white;">
       <div v-if="usuarioLogado">
         Usuário logado: {{ this.usuarioLogado.nome }}
-        <button @click="logout()">Logout</button>
+        <button @click="logout()" class="logout">Logout</button>
       </div>
     </div>
 
@@ -46,8 +47,7 @@
       <!-- Categorias (mais) -->
       <button id="toggleMenu" class="button">
         <router-link to="/form-anuncio/Anuncio" class="button">
-          <svg viewBox="0 0 24 24" fill="none" height="24" width="24" xmlns="http://www.w3.org/2000/svg"
-            aria-hidden="true" class="svg w-6 h-6 text-gray-800 dark:text-white">
+          <svg viewBox="0 0 24 24" fill="none" width="1em" height="1em" xmlns="http://www.w3.org/2000/svg" class="icon">
             <path
               d="m17 21-5-4-5 4V3.889a.92.92 0 0 1 .244-.629.808.808 0 0 1 .59-.26h8.333a.81.81 0 0 1 .589.26.92.92 0 0 1 .244.63V21Z"
               stroke-width="2" stroke-linejoin="round" stroke-linecap="round" stroke="currentColor"></path>
@@ -98,7 +98,7 @@
     </div>
   </div> -->
 
-  <div id="anuncios">
+  <!-- <div id="anuncios">
     <div class="anuncio" v-for="(imagens, index) in listaAnuncios" :key="index">
       <Swiper :modules="[Navigation]" :navigation="false" class="carrossel" ref="swiperRefs[index]">
         <SwiperSlide v-for="(img, idx) in imagens" :key="idx">
@@ -111,7 +111,7 @@
       </div>
       <p>Anúncio {{ index + 1 }}</p>
     </div>
-  </div>
+  </div> -->
 
 
 
@@ -251,7 +251,7 @@ export default {
   flex-direction: column;
   align-items: center;
   background-color: #0c343c;
-  padding: 10px;
+  padding: 15px;
 
 }
 
@@ -293,7 +293,7 @@ export default {
   display: flex;
   align-items: center;
   margin-left: auto;
-  /* margin-bottom: 10px; */
+  top: -5.5px;
 }
 
 #busca {
@@ -306,10 +306,24 @@ export default {
 
 }
 
+.logout{
+    padding: 8px;
+    border: none;
+    border-radius: 8px;
+    background: #0b5154;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+
+}
+
+.logout:hover {
+  background: #0f3f49;
+}
+
 .button-container {
   display: flex;
   background-color: rgb(155 141 42);
-  ;
   padding: 0 20px;
   height: 40px;
   align-items: center;
@@ -343,12 +357,6 @@ export default {
   font-size: 20px;
 }
 
-.search-container {
-  position: relative;
-  display: flex;
-  align-items: center;
-  padding-top: 10px;
-}
 
 .search-icon {
   position: absolute;

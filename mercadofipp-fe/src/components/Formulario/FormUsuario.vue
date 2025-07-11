@@ -1,11 +1,13 @@
 <template>
 
-  <div id="menu" style="padding: 15px">
+  <div id="menu">
     <img src="@/assets/logo.png" class="logo">
-    <div>
+    
+    
+    <div style="position: absolute; right: 15%; top: 1.5%; color: white;">
       <div v-if="usuarioLogado">
         Usuário logado: {{ this.usuarioLogado.nome }}
-        <button @click="logout()">Logout</button>
+        <button @click="logout()" class="logout">Logout</button>
       </div>
     </div>
 
@@ -40,8 +42,7 @@
       <!-- Categorias (mais) -->
       <button id="toggleMenu" class="button">
         <router-link to="/form-anuncio/Anuncio" class="button">
-        <svg viewBox="0 0 24 24" fill="none" height="24" width="24" xmlns="http://www.w3.org/2000/svg"
-          aria-hidden="true" class="svg w-6 h-6 text-gray-800 dark:text-white">
+        <svg viewBox="0 0 24 24" fill="none" width="1em" height="1em" xmlns="http://www.w3.org/2000/svg" class="icon">
           <path
             d="m17 21-5-4-5 4V3.889a.92.92 0 0 1 .244-.629.808.808 0 0 1 .59-.26h8.333a.81.81 0 0 1 .589.26.92.92 0 0 1 .244.63V21Z"
             stroke-width="2" stroke-linejoin="round" stroke-linecap="round" stroke="currentColor"></path>
@@ -66,9 +67,9 @@
   </div>
 
 
-  <div>
-    <div class="container-usuario">
-    <h1 class="titulo">{{ msg }}</h1>
+  <div class="container-usuario">
+    <div>
+    <h1 class="titulo" style="color: white">{{ msg }}</h1>
 
     <div v-if="formOn" class="form-box">
       <form @submit.prevent="this.gravar()" class="formulario">
@@ -79,41 +80,45 @@
         <input type="password" id="senha" v-model="senha" placeholder="Senha ..." />
 
         <label for="nivel">Nível</label>
-        <select id="nivel" v-model="nivel">
+        <select id="nivel" v-model="nivel" placeholder="Nível...">
           <option value="1">Administrador</option>
           <option value="2">Comum</option>
         </select>
 
         <input type="submit" value="Confirmar" class="btn-confirmar" />
       </form>
+      <button @click="this.fecharForm(false)" class="btn-novo" style="position: relative; left: 115%; top: 64.5px">
+        Fechar
+      </button>
     </div>
 
     <div class="btn-novo-container">
       <button @click="this.mostrarForm(true)" class="btn-novo">
         Novo Usuário
       </button>
+
     </div>
   </div>
-    <div
-      class="relative flex flex-col w-full h-full overflow-scroll text-gray-700 bg-white shadow-md rounded-xl bg-clip-border">
-      <table id="customers" class="w-full text-left table-auto min-w-max">
+    
+      <table id="customers">
         <thead>
           <tr>
-            <th class="p-4 border-b border-blue-gray-100 bg-blue-gray-50">Id</th>
+            <th >Id</th>
             <th @click="ordenarNome()">Nome</th>
             <th>Senha</th>
             <th>Nivel</th>
             <th colspan="2">Ações</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody style="color: black">
           <tr v-for="usu in this.usuarios">
-            <td class="p-4 border-b border-blue-gray-50">{{ usu.id }}</td>
+            
+            <td>{{ usu.id }}</td>
             <td>{{ usu.nome }}</td>
             <td>{{ usu.senha }}</td>
             <td>{{ usu.nivel }}</td>
             <td style="justify-items: center;">
-              <button @click="this.alterar(usu.id)" class="button">
+              <button @click="this.alterar(usu.id)" class="button" style="top: 4px">
                 <span class="shadow"></span>
                 <span class="edge"></span>
                 <div class="front">
@@ -122,7 +127,7 @@
               </button>
             </td>
             <td style="justify-items: center;">
-              <button @click="this.apagar(usu.id)" class="button">
+              <button @click="this.apagar(usu.id)" class="button" style="top: 4px">
                 <span class="edge"></span>
                 <div class="front">
                   <span>Excluir</span>
@@ -132,7 +137,6 @@
           </tr>
         </tbody>
       </table>
-    </div>
   </div>
 
 </template>
@@ -173,6 +177,9 @@ export default {
     },
     mostrarForm(flag) {
       this.formOn = flag;
+    },
+    fecharForm() {
+      this.formOn = false;
     },
     gravar() {
       const url = 'http://localhost:8080/apis/usuario';
@@ -233,9 +240,7 @@ export default {
 <style scoped>
 
 .container-usuario {
-  background-color: #004b4b;
   padding: 30px;
-  min-height: 100vh;
   color: white;
 }
 
@@ -324,14 +329,14 @@ input[type=submit]:hover {
   background-color: #45a049;
 }
 
-div {
-  padding: 20px;
-}
 
 #customers {
   font-family: Arial, Helvetica, sans-serif;
   border-collapse: collapse;
-  width: 100%;
+  width: 70%;
+  position: relative;
+  justify-self: center;
+  background-color: white;
 }
 
 #customers td,
@@ -340,20 +345,11 @@ div {
   padding: 8px;
 }
 
-#customers tr:nth-child(even) {
-  background-color: #f2f2f2;
-}
-
-#customers tr:hover {
-  background-color: #ddd;
-}
-
 #customers th {
   padding-top: 12px;
   padding-bottom: 12px;
   text-align: left;
   background-color: #2F4F4F;
-  color: white;
 }
 
 /* button */
@@ -366,6 +362,7 @@ div {
   outline: none;
   cursor: pointer;
   font-family: sans-serif;
+
 
 }
 
@@ -385,7 +382,7 @@ div {
 /* Edge layer */
 .button .edge {
   position: absolute;
-  top: 0;
+  top: 0p;
   left: 0;
   width: 50%;
   height: 50%;
@@ -399,8 +396,8 @@ div {
 
 /* Front layer */
 .button .front {
-
-  padding: 12px 28px;
+  
+  padding: 10px 20px;
   color: white;
   background: hsl(217, 33%, 17%);
   border-radius: 8px;
