@@ -7,6 +7,7 @@ import Login from './components/telas/Login.vue'
 import FormCategoria from './components/Formulario/FormCategoria.vue'
 import FormUsuario from './components/Formulario/FormUsuario.vue'
 import FormAnuncio from './components/Formulario/FormAnuncio.vue'
+import TelaAnuncio from './components/telas/TelaAnuncio.vue'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -16,6 +17,7 @@ const router = createRouter({
     { path: '/form-categoria/:msg', component: FormCategoria, props: true },
     { path: '/form-usuario/:msg', component: FormUsuario, props: true },
     { path: '/form-anuncio/:msg', component: FormAnuncio, props: true },
+    { path: '/tela-anuncio/:msg', component: TelaAnuncio, props: true },
   ]
 })
 

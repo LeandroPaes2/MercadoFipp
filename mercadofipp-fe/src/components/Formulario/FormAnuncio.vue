@@ -75,7 +75,7 @@
           <label for="categoria">Categoria</label>
           <select id="categoria" v-model="categoria" required>
             <option disabled value="">Selecione uma categoria</option>
-            <option v-for=" categoria in categorias" :key="categoria.id" :value="categoria">
+            <option v-for="categoria in categorias" :key="categoria.id" :value="categoria">
               {{ categoria.nome }}
             </option>
           </select>
@@ -84,17 +84,14 @@
           <label for="usuario">Usuário</label>
           <input type="text" id="usuario" v-model="usuarioLogado.nome" disabled>
 
-          <!-- <select id="usuario" v-model="usuario" required>
-          <option  :key="usuarioLogado.id" :value="usuarioLogado.id">{{ this.usuarioLogado.nome }}</option>
-        </select> -->
+          <label for="foto">Foto</label>
+          <input type="file" multiple accept="image/*" @change="adicionarArquivos" class="form-control" />
 
-
-
-        <input type="submit" value="Cadastrar">
+          <input type="submit" value="Cadastrar">
         </form>
         <button @click="this.fecharForm(false)" class="btn-novo" style="position: relative; left: 115%; top: 64.5px">
-        Fechar
-      </button>
+          Fechar
+        </button>
       </div>
 
       <div class="btn-novo-container">
@@ -109,11 +106,12 @@
           <tr>
             <th>Id</th>
             <th @click="ordenarPorTitulo">Título</th>
-            <th>Data</th>
+            <th style="width: 10%;">Data</th>
             <th>Descrição</th>
-            <th>Preço</th>
+            <th style="width: 10%;">Preço</th>
             <th>Categoria</th>
             <th>Usuário</th>
+            <th>Foto</th>
             <th colspan="2" style="width: 20%;">Ações</th>
           </tr>
         </thead>
@@ -126,6 +124,11 @@
             <td>R$ {{ an.preco.toFixed(2) }}</td>
             <td>{{ an.categoria.nome }}</td>
             <td>{{ an.usuario.nome }}</td>
+            <td>
+              <img v-if="an.fotos && an.fotos.length > 0" :src="`http://localhost:8080/apis/foto/${an.id}/0`"
+                alt="Foto do anúncio" style="max-width: 100px; max-height: 80px;" />
+              <span v-else>Sem foto</span>
+            </td>
             <td style="justify-items: center;">
               <button @click="this.alterar(an.id)" class="button">
                 <span class="shadow"></span>
@@ -167,10 +170,12 @@ export default {
       preco: 0,
       categoria: "",
       usuario: "",
+      anuId: 0,
       formOn: false,
       anuncios: [],
       categorias: [],
       usuarios: [],
+      anuncioFoto: [],
       usuarioLogado: {},
       alterando: false
     }
@@ -199,6 +204,7 @@ export default {
     },
     gravar() {
       const url = 'http://localhost:8080/apis/anuncio';
+      const formData = new FormData();
       let data;
       if (!this.alterando) {
         data = {
@@ -225,23 +231,48 @@ export default {
           usuario: this.usuarioLogado.id
         };
       }
-      console.log(data.id);
-      console.log(data.titulo);
-      console.log(data.data);
-      console.log(data.descricao);
-      console.log(data.preco);
-      console.log(data.categoria);
-      console.log(data.usuario);
-      axios.post(url, data)
+      formData.append("anuncio", new Blob([JSON.stringify(data)], { type: "application/json" }));
+      this.anuncioFoto.forEach((foto) => {
+        formData.append("fotos", foto);
+      });
+
+      axios.post(url, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      })
         .then(() => {
           this.carregarDados();
+          this.limpar();
+          this.formOn = false;
+          this.alterando = false;
         })
         .catch(error => {
-          alert('Erro: ' + error);
+          alert('Erro ao gravar anúncio: ' + error);
         });
       this.limpar();
       this.formOn = false;
       this.alterando = false;
+    },
+
+    adicionarArquivos(event) {
+      const novosArquivos = Array.from(event.target.files);
+      const todos = [...this.anuncioFoto, ...novosArquivos].slice(0, 3);
+      this.anuncioFoto = todos;
+    },
+    carregarDados() {
+      axios.get('http://localhost:8080/apis/anuncio')
+        .then(res => {
+          this.anuncios = res.data;
+        });
+      axios.get('http://localhost:8080/apis/categoria')
+        .then(res => {
+          this.categorias = res.data;
+        });
+      axios.get('http://localhost:8080/apis/usuario')
+        .then(res => {
+          this.usuarios = res.data;
+        });
     },
     carregarDados() {
       axios.get('http://localhost:8080/apis/anuncio')

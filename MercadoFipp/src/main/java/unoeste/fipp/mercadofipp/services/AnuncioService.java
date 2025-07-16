@@ -7,9 +7,11 @@ import unoeste.fipp.mercadofipp.entities.Anuncio;
 import unoeste.fipp.mercadofipp.entities.Pergunta;
 import unoeste.fipp.mercadofipp.repositories.AnuncioRepository;
 import unoeste.fipp.mercadofipp.entities.Foto;
-import java.util.List;
 
-import static unoeste.fipp.mercadofipp.Filefoto.salvarFotoNoDisco;
+import java.io.IOException;
+import java.util.List;
+import java.util.Optional;
+
 
 @Service
 public class AnuncioService {
@@ -20,7 +22,14 @@ public class AnuncioService {
         return anuncioRepository.findAll();
     }
 
+    public Anuncio getId(long id) {
+        return anuncioRepository.findById(id).orElse(null);
+    }
+
+
     public Anuncio save(Anuncio anuncio, MultipartFile[] fotos) {
+        System.out.println(">> Salvando anúncio: " + anuncio.getTitulo());
+        System.out.println(">> Qtd de fotos recebidas: " + (fotos != null ? fotos.length : 0));
         Anuncio novoAnuncio = anuncioRepository.save(anuncio);
         if (novoAnuncio != null)
             addFoto(novoAnuncio.getId(), fotos);
@@ -67,22 +76,23 @@ public class AnuncioService {
         }
     }
 
-    public boolean addFoto(long id_anuncio, MultipartFile[] fotos) {
+    public boolean addFoto(long idAnuncio, MultipartFile[] fotos) {
         try {
             for (MultipartFile foto : fotos) {
-                String nome = salvarFotoNoDisco(foto); // você que implementa
-                anuncioRepository.addFoto(id_anuncio, nome);
+                System.out.println(">> Processando foto: " + foto.getOriginalFilename());
+                byte[] bytes = foto.getBytes();
+                String nomeArq = foto.getOriginalFilename();
+                String extensao;
+                int pos = nomeArq.lastIndexOf(".");
+                extensao = nomeArq.substring(pos + 1);
+                anuncioRepository.addFoto(bytes, idAnuncio, extensao);
+                System.out.println(">> Foto inserida com sucesso.");
             }
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
+            System.err.println(">> Erro ao inserir foto: " + e.getMessage());
             return false;
         }
-    }
-
-
-    public Anuncio getId(long id) {
-        return anuncioRepository.findById(id).orElse(null);
     }
 
 
@@ -96,10 +106,11 @@ public class AnuncioService {
     }
 
     public boolean delete(long id){
+        Anuncio anuncio=anuncioRepository.findById(id).orElse(null);
         try{
             anuncioRepository.deleteAllPer(id);
-
             anuncioRepository.deleteById(id);
+            anuncioRepository.delFoto(anuncio.getId());
             return true;
         }catch (Exception e){
             return false;

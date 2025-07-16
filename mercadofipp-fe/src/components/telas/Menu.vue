@@ -2,7 +2,7 @@
   <div id="menu">
     <img src="@/assets/logo.png" class="logo">
     <!-- Pesquisar (lupa) no canto superior esquerdo -->
-    
+
     <div class="search-container">
       <input type="text" placeholder="Buscar..." id="busca">
       <svg xmlns="http://www.w3.org/2000/svg" class="search-icon" width="20" height="20" viewBox="0 0 24 24"
@@ -76,49 +76,22 @@
 
   <!-- Anuncios -->
 
-  <!-- <div id="anuncios">
-      <div class="anuncio" v-for="n in 5" :key="n">
-        <a :href="'/anuncio/' + n">
-          <img :src="'https://via.placeholder.com/150?text=Anuncio+' + n">
-        </a>
-        <p>Anúncio {{ n }}</p>
-      </div>
-    </div> -->
-
-  <!-- <div id="anuncios">
-    <div class="anuncio" v-for="(imagens, index) in listaAnuncios" :key="index">
-      <div class="carrossel">
-        <img :src="imagens[imagemAtual[index]]" alt="Imagem do anúncio">
-        <div class="botoes">
-          <button @click="anterior(index)">&#10094;</button>
-          <button @click="proximo(index)">&#10095;</button>
-        </div>
-      </div>
-      <p>Anúncio {{ index + 1 }}</p>
+  <div id="anuncios">
+    <div class="anuncio" v-for="n in anuncios" :key="n">
+      <a :href="'/anuncio/' + n">
+        <img v-if="n.fotos && n.fotos.length > 0 && n.fotos[0].img64" :src="n.fotos[0].img64" alt="Imagem do anúncio"class="anuncio-image" />
+      </a>
+      <p>{{ n.titulo }}</p>
+      <p>R$ {{ n.preco }}</p>
     </div>
-  </div> -->
-
-  <!-- <div id="anuncios">
-    <div class="anuncio" v-for="(imagens, index) in listaAnuncios" :key="index">
-      <Swiper :modules="[Navigation]" :navigation="false" class="carrossel" ref="swiperRefs[index]">
-        <SwiperSlide v-for="(img, idx) in imagens" :key="idx">
-          <img :src="img" alt="Imagem do anúncio">
-        </SwiperSlide>
-      </Swiper>
-      <div class="botoes-swiper">
-        <button @click="slidePrev(index)">&#10094;</button>
-        <button @click="slideNext(index)">&#10095;</button>
-      </div>
-      <p>Anúncio {{ index + 1 }}</p>
-    </div>
-  </div> -->
-
+  </div>
 
 
 </template>
 
 
-<script setup>import { Swiper, SwiperSlide } from 'swiper/vue';
+<script setup>
+import { Swiper, SwiperSlide } from 'swiper/vue';
 import 'swiper/css';
 import { Navigation } from 'swiper/modules';
 import { ref, onMounted } from 'vue';
@@ -166,15 +139,21 @@ const slideNext = (index) => {
 
 
 <script>
+import FormAnuncio from '../Formulario/FormAnuncio.vue';
 import FormCategoria from '../Formulario/FormCategoria.vue';
 import FormUsuario from '../Formulario/FormUsuario.vue';
-
+import axios from 'axios'
 
 export default {
   name: 'Menu',
+  components: {
+    FormCategoria,
+    FormUsuario,
+    FormAnuncio
+  },
   data() {
     return {
-      usuarioLogado: {}
+      usuarioLogado: {}, anuncios: []
     }
   },
   created() {
@@ -182,20 +161,24 @@ export default {
     if (!this.usuarioLogado) {
       this.$router.push('/') // Redireciona se não estiver logado
     }
-    else{
+    else {
       this.usuarioLogado = JSON.parse(this.usuarioLogado)
     }
+    this.carregarDados();
   },
   methods: {
     logout() {
       localStorage.removeItem('usuarioLogado')
       this.$router.push('/')
+    },
+    carregarDados() {
+      axios.get('http://localhost:8080/apis/anuncio')
+        .then(res => {
+          this.anuncios = res.data;
+        });
     }
-  },
-  components: {
-    FormCategoria,
-    FormUsuario
   }
+
 }
 </script>
 
@@ -306,14 +289,14 @@ export default {
 
 }
 
-.logout{
-    padding: 8px;
-    border: none;
-    border-radius: 8px;
-    background: #0b5154;
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
+.logout {
+  padding: 8px;
+  border: none;
+  border-radius: 8px;
+  background: #0b5154;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
 
 }
 
@@ -393,7 +376,7 @@ export default {
   /* Largura fixa */
   height: 450px;
   /* Altura aumentada conforme solicitado */
-  text-align: center;
+  text-align: left;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease;
   display: flex;
