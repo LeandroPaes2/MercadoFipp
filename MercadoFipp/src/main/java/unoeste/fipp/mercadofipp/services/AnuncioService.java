@@ -9,6 +9,7 @@ import unoeste.fipp.mercadofipp.repositories.AnuncioRepository;
 import unoeste.fipp.mercadofipp.entities.Foto;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,9 +19,18 @@ public class AnuncioService {
     @Autowired
     private AnuncioRepository anuncioRepository;
 
-    public List<Anuncio> getAll(){
-        return anuncioRepository.findAll();
+    public List<Anuncio> getAll() {
+        List<Anuncio> anuncios = anuncioRepository.findAll();
+        for (Anuncio a : anuncios) {
+            if (a.getFotos() == null) {
+                a.setFotos(new ArrayList<>());
+            }
+        }
+        return anuncios;
     }
+
+
+
 
     public Anuncio getId(long id) {
         return anuncioRepository.findById(id).orElse(null);
@@ -98,12 +108,26 @@ public class AnuncioService {
 
     public List<Anuncio> getTitulob(String titulo) {
         titulo = titulo + "%";
-        return anuncioRepository.getTitulob(titulo);
+        List<Anuncio> anuncios = anuncioRepository.getTitulob(titulo);
+        for (Anuncio a : anuncios) {
+            a.getFotos().size();
+            a.getUsuario().getId();
+            a.getCategoria().getId();
+        }
+        return anuncios;
     }
 
+
     public List<Anuncio> getIdUsu(long id){
-        return anuncioRepository.getIdUsu(id);
+        List<Anuncio> anuncios = anuncioRepository.getIdUsu(id);
+        for (Anuncio a : anuncios) {
+            a.getFotos().size();
+            a.getUsuario().getId();
+            a.getCategoria().getId();
+        }
+        return anuncios;
     }
+
 
     public boolean delete(long id){
         Anuncio anuncio=anuncioRepository.findById(id).orElse(null);

@@ -22,15 +22,21 @@ public class AnuncioRestController {
     @Autowired
     private AnuncioService anuncioService;
 
+    @Autowired
+    private AnuncioRepository anuncioRepository;
 
     @GetMapping
-    public ResponseEntity<Object> getAll() {
-        List<Anuncio> anuncios = anuncioService.getAll();
-        if(anuncios!=null && !anuncios.isEmpty())
-            return ResponseEntity.ok(anuncios);
-        else
-            return ResponseEntity.badRequest().body(new Erro("Anuncios não encontrados"));
+    public ResponseEntity<List<Anuncio>> getAll() {
+        List<Anuncio> anuncios = anuncioRepository.findAllComFotos();
+        return ResponseEntity.ok(anuncios);  // Retorna OK com lista (mesmo que vazia)
     }
+
+
+    @GetMapping("/listar-todos")
+    public List<Anuncio> listarTodos() {
+        return anuncioRepository.findAllComFotos();
+    }
+
 
     @GetMapping("{id}")
     public ResponseEntity<Object> getId(@PathVariable int id) {

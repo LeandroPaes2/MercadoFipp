@@ -1,5 +1,6 @@
 package unoeste.fipp.mercadofipp.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import java.util.Base64;
@@ -13,7 +14,6 @@ public class Foto {
     @Column(name = "fot_id")
     private Long id;
 
-    @Lob
     @Column(name = "fot_file")
     private byte[] file;
 
@@ -22,7 +22,7 @@ public class Foto {
     @Column(name = "fot_ext")
     private String extensao;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "anu_id")
     private Anuncio anuncio;
 

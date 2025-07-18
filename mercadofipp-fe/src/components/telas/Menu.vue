@@ -77,9 +77,10 @@
   <!-- Anuncios -->
 
   <div id="anuncios">
-    <div class="anuncio" v-for="n in anuncios" :key="n">
-      <a :href="'/anuncio/' + n">
-        <img v-if="n.fotos && n.fotos.length > 0 && n.fotos[0].img64" :src="n.fotos[0].img64" alt="Imagem do anúncio"class="anuncio-image" />
+    <div class="anuncio" v-for="n in anuncios" :key="n.id">
+      <a :href="'/anuncio/' + n.id">
+        <img :src="anuncio.fotos[0].img64" alt="Imagem do anúncio" class="anuncio-image" />
+
       </a>
       <p>{{ n.titulo }}</p>
       <p>R$ {{ n.preco }}</p>
@@ -87,100 +88,99 @@
   </div>
 
 
+
+
+
 </template>
-
-
-<script setup>
-import { Swiper, SwiperSlide } from 'swiper/vue';
-import 'swiper/css';
-import { Navigation } from 'swiper/modules';
-import { ref, onMounted } from 'vue';
-
-const listaAnuncios = [
-  [
-    'https://via.placeholder.com/300x300?text=Anuncio+1+Imagem+1',
-    'https://via.placeholder.com/300x300?text=Anuncio+1+Imagem+2',
-    'https://via.placeholder.com/300x300?text=Anuncio+1+Imagem+3'
-  ],
-  [
-    'https://via.placeholder.com/300x300?text=Anuncio+2+Imagem+1',
-    'https://via.placeholder.com/300x300?text=Anuncio+2+Imagem+2'
-  ],
-  [
-    'https://via.placeholder.com/300x300?text=Anuncio+3+Imagem+1',
-    'https://via.placeholder.com/300x300?text=Anuncio+3+Imagem+2',
-    'https://via.placeholder.com/300x300?text=Anuncio+3+Imagem+3'
-  ],
-  [
-    'https://via.placeholder.com/300x300?text=Anuncio+4+Imagem+1'
-  ],
-  [
-    'https://via.placeholder.com/300x300?text=Anuncio+5+Imagem+1',
-    'https://via.placeholder.com/300x300?text=Anuncio+5+Imagem+2'
-  ],
-];
-
-// Cria uma lista de referências para os carrosseis
-const swiperRefs = ref([]);
-
-onMounted(() => {
-  swiperRefs.value = listaAnuncios.map(() => null);
-});
-
-const slidePrev = (index) => {
-  swiperRefs.value[index]?.swiper.slidePrev();
-};
-
-const slideNext = (index) => {
-  swiperRefs.value[index]?.swiper.slideNext();
-};
-
-</script>
 
 
 <script>
 import FormAnuncio from '../Formulario/FormAnuncio.vue';
 import FormCategoria from '../Formulario/FormCategoria.vue';
 import FormUsuario from '../Formulario/FormUsuario.vue';
-import axios from 'axios'
+import axios from 'axios';
+import { Swiper, SwiperSlide } from 'swiper/vue';
+import 'swiper/css';
+import { Navigation } from 'swiper/modules';
 
 export default {
   name: 'Menu',
   components: {
     FormCategoria,
     FormUsuario,
-    FormAnuncio
+    FormAnuncio,
+    Swiper,
+    SwiperSlide,
   },
   data() {
     return {
-      usuarioLogado: {}, anuncios: []
-    }
+      usuarioLogado: {},
+      anuncios: [],
+      anuncio: null,
+      fotos: [],
+      listaAnuncios: [
+        [
+          'https://via.placeholder.com/300x300?text=Anuncio+1+Imagem+1',
+          'https://via.placeholder.com/300x300?text=Anuncio+1+Imagem+2',
+          'https://via.placeholder.com/300x300?text=Anuncio+1+Imagem+3'
+        ],
+        [
+          'https://via.placeholder.com/300x300?text=Anuncio+2+Imagem+1',
+          'https://via.placeholder.com/300x300?text=Anuncio+2+Imagem+2'
+        ],
+        [
+          'https://via.placeholder.com/300x300?text=Anuncio+3+Imagem+1',
+          'https://via.placeholder.com/300x300?text=Anuncio+3+Imagem+2',
+          'https://via.placeholder.com/300x300?text=Anuncio+3+Imagem+3'
+        ],
+        [
+          'https://via.placeholder.com/300x300?text=Anuncio+4+Imagem+1'
+        ],
+        [
+          'https://via.placeholder.com/300x300?text=Anuncio+5+Imagem+1',
+          'https://via.placeholder.com/300x300?text=Anuncio+5+Imagem+2'
+        ],
+      ],
+      swiperRefs: [],
+    };
+  },
+  mounted() {
+    this.swiperRefs = this.listaAnuncios.map(() => null);
   },
   created() {
-    this.usuarioLogado = localStorage.getItem('usuarioLogado')
+    this.usuarioLogado = localStorage.getItem('usuarioLogado');
     if (!this.usuarioLogado) {
-      this.$router.push('/') // Redireciona se não estiver logado
-    }
-    else {
-      this.usuarioLogado = JSON.parse(this.usuarioLogado)
+      this.$router.push('/');
+    } else {
+      this.usuarioLogado = JSON.parse(this.usuarioLogado);
     }
     this.carregarDados();
   },
   methods: {
     logout() {
-      localStorage.removeItem('usuarioLogado')
-      this.$router.push('/')
+      localStorage.removeItem('usuarioLogado');
+      this.$router.push('/');
     },
     carregarDados() {
-      axios.get('http://localhost:8080/apis/anuncio')
+      axios.get('http://localhost:8080/apis/anuncio/listar-todos')
         .then(res => {
           this.anuncios = res.data;
+          console.log(this.anuncios);
+          if (this.anuncios.length > 0) {
+            this.anuncio = this.anuncios[0];
+          }
         });
+    },
+    slidePrev(index) {
+      this.swiperRefs[index]?.swiper.slidePrev();
+    },
+    slideNext(index) {
+      this.swiperRefs[index]?.swiper.slideNext();
     }
   }
-
-}
+};
 </script>
+
 
 <style>
 .carrossel {

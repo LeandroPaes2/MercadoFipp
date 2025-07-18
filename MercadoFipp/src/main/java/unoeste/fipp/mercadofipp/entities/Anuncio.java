@@ -1,12 +1,14 @@
 package unoeste.fipp.mercadofipp.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "anuncio")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "perguntas"})
 public class Anuncio {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,8 +33,12 @@ public class Anuncio {
     @OneToMany(mappedBy = "anuncio")
     private List<Pergunta> perguntas;
 
-    @OneToMany(mappedBy = "anuncio")
-    private List<Foto> fotos;
+    @OneToMany(mappedBy = "anuncio", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @JsonIgnoreProperties("anuncio") // ou use DTOs se preferir
+    private List<Foto> fotos = new ArrayList<>();
+
+
+
 
     public Anuncio() {
         this(0L,"",null,"",0,null,null);

@@ -60,5 +60,9 @@ public interface AnuncioRepository extends JpaRepository<Anuncio, Long> {
     @Query(value = "DELETE FROM pergunta_anuncio WHERE anu_id = :id", nativeQuery = true)
     public void deleteAllPer(@Param("id") Long id);
 
+    @Query("SELECT DISTINCT a FROM Anuncio a LEFT JOIN FETCH a.fotos f LEFT JOIN FETCH a.categoria c LEFT JOIN FETCH a.usuario u")
+    List<Anuncio> findAllComFotos();
+
+
 
 }

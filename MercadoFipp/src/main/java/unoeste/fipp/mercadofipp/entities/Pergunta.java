@@ -1,9 +1,10 @@
 package unoeste.fipp.mercadofipp.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "pergunta_anuncio")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "anuncio"})
 public class Pergunta {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -111,7 +111,6 @@
             <th style="width: 10%;">Preço</th>
             <th>Categoria</th>
             <th>Usuário</th>
-            <th>Foto</th>
             <th colspan="2" style="width: 20%;">Ações</th>
           </tr>
         </thead>
@@ -124,11 +123,6 @@
             <td>R$ {{ an.preco.toFixed(2) }}</td>
             <td>{{ an.categoria.nome }}</td>
             <td>{{ an.usuario.nome }}</td>
-            <td>
-              <img v-if="an.fotos && an.fotos.length > 0" :src="`http://localhost:8080/apis/foto/${an.id}/0`"
-                alt="Foto do anúncio" style="max-width: 100px; max-height: 80px;" />
-              <span v-else>Sem foto</span>
-            </td>
             <td style="justify-items: center;">
               <button @click="this.alterar(an.id)" class="button">
                 <span class="shadow"></span>
@@ -208,6 +202,7 @@ export default {
       let data;
       if (!this.alterando) {
         data = {
+          id: this.alterando ? this.id : undefined, // só manda o id se for edição
           titulo: this.titulo,
           data: this.data,
           descricao: this.descricao,
@@ -219,6 +214,7 @@ export default {
             nivel: this.usuarioLogado.nivel
           }
         };
+
       }
       else {
         data = {
@@ -259,20 +255,6 @@ export default {
       const novosArquivos = Array.from(event.target.files);
       const todos = [...this.anuncioFoto, ...novosArquivos].slice(0, 3);
       this.anuncioFoto = todos;
-    },
-    carregarDados() {
-      axios.get('http://localhost:8080/apis/anuncio')
-        .then(res => {
-          this.anuncios = res.data;
-        });
-      axios.get('http://localhost:8080/apis/categoria')
-        .then(res => {
-          this.categorias = res.data;
-        });
-      axios.get('http://localhost:8080/apis/usuario')
-        .then(res => {
-          this.usuarios = res.data;
-        });
     },
     carregarDados() {
       axios.get('http://localhost:8080/apis/anuncio')
